@@ -47,7 +47,7 @@ public class MessageListener extends ListenerAdapter {
                     event.getChannel().sendMessage(list.toString()).queue();
                     return;
                 }
-                if (args[0].equalsIgnoreCase("help")) {
+/*                if (args[0].equalsIgnoreCase("help")) {
                     event.getChannel().sendMessage("Help: \n" +
                             "Um einen neue Aufgabe hinzu zu fügen: ```addTask <Num-Subject>(show with 'list') [Day/Date] [Description]```\n" + //length = >= 4
                             "Um an einer Aufgabe etwas zu verändern verwende: ```updateTask <task-id(not subject id)> <description/DeadLine/Link/subject> [new thing]```\n" + //length >= 4
@@ -56,15 +56,15 @@ public class MessageListener extends ListenerAdapter {
                             "\n" +
                             "").queue();
                     return;
-                }
-                if (args[0].equalsIgnoreCase("ping")) {
+                }*/
+/*                if (args[0].equalsIgnoreCase("ping")) {
                     MessageChannel channel = event.getChannel();
                     long time = System.currentTimeMillis();
-                    channel.sendMessage("Pong!") /* => RestAction<Message> */
-                            .queue(response /* => Message */ -> {
+                    channel.sendMessage("Pong!") *//* => RestAction<Message> *//*
+                            .queue(response *//* => Message *//* -> {
                                 response.editMessageFormat("Pong: %d ms", System.currentTimeMillis() - time).queue();
                             });
-                }
+                }*/
             }
             if (args.length == 2) {
                 //delete task -> delTask <task-id>

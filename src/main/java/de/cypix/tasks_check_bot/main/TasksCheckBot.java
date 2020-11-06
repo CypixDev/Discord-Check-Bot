@@ -1,7 +1,11 @@
 package de.cypix.tasks_check_bot.main;
 
+import de.cypix.tasks_check_bot.commands.CMDHelp;
+import de.cypix.tasks_check_bot.commands.CMDPing;
+import de.cypix.tasks_check_bot.commands.CommandManager;
 import de.cypix.tasks_check_bot.configuration.ConfigManager;
 import de.cypix.tasks_check_bot.console.ConsoleManager;
+import de.cypix.tasks_check_bot.events.CommandListener;
 import de.cypix.tasks_check_bot.events.MessageListener;
 import de.cypix.tasks_check_bot.events.ReadyListener;
 import de.cypix.tasks_check_bot.events.UserLogger;
@@ -24,6 +28,7 @@ public class TasksCheckBot {
     private static ConfigManager configManager;
     private static ConsoleManager consoleManager;
     private static SQLConnector sqlConnector;
+    private static CommandManager commandManager;
 
 
     public static void main(String[] args) throws LoginException {
@@ -31,6 +36,14 @@ public class TasksCheckBot {
         configManager = new ConfigManager();
         consoleManager = new ConsoleManager();
         consoleManager.start();
+        commandManager = new CommandManager();
+
+        registerCommands();
+    }
+
+    private static void registerCommands() {
+        commandManager.registerCommand("help", new CMDHelp());
+        commandManager.registerCommand("ping", new CMDPing());
     }
 
     public static ConfigManager getConfigManager() {
@@ -58,6 +71,7 @@ public class TasksCheckBot {
 
             jda.addEventListener(new ReadyListener());
             jda.addEventListener(new MessageListener());
+            jda.addEventListener(new CommandListener());
             jda.addEventListener(new UserLogger());
 
         }catch(Exception e){
@@ -83,5 +97,9 @@ public class TasksCheckBot {
 
     public static JDABuilder getBuilder() {
         return builder;
+    }
+
+    public static CommandManager getCommandManager() {
+        return commandManager;
     }
 }
