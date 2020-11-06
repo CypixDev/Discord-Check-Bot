@@ -9,6 +9,8 @@ public class Config {
 
     // Hier schreibst du deine Attribute hin
     public String token;
+    public String channelName;
+    public String sqlPassword;
 /*    public int WIDTH;
     public int HEIGHT;
     public double RATIO;
@@ -18,6 +20,8 @@ public class Config {
         // Hier die Standardwerte falls das jeweiligen Attribut nicht in der
         // config.json enthalten ist.
         this.token = "put here your token";
+        this.channelName = "put here your channelname";
+        this.sqlPassword = "123456";
 /*        this.WIDTH = 800;
         this.HEIGHT = 600;
         this.RATIO = 0.6;
