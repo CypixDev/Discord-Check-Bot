@@ -31,6 +31,14 @@ public enum SchoolSubject {
         return null;
     }
 
+    public static int getHighestSubjectId(){
+        int current = 0;
+        for (SchoolSubject value : SchoolSubject.values()) {
+            if(value.getId() > current) current = value.getId();
+        }
+        return current;
+    }
+
     public int getId() {
         return id;
     }
@@ -41,5 +49,17 @@ public enum SchoolSubject {
 
     public String getEmoji() {
         return emoji;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setEmoji(String emoji) {
+        this.emoji = emoji;
     }
 }

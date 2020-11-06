@@ -28,7 +28,7 @@ public class SQLConnector {
     private void createTable() {
         if(isConnected()){
             executeUpdate("CREATE TABLE IF NOT EXISTS task(task_id INT PRIMARY KEY AUTO_INCREMENT, subject_id TINYINT, task_description VARCHAR(255), " +
-                    "task_link VARCHAR(255), delivery_day VARCHAR(100));");
+                    "task_link VARCHAR(255), task_deadline VARCHAR(100));");
             executeUpdate("CREATE TABLE IF NOT EXISTS user(user_id INT PRIMARY KEY AUTO_INCREMENT, discord_id LONG, discord_name VARCHAR(255));");
             executeUpdate("CREATE TABLE IF NOT EXISTS private_channel(user_id INT, private_channel_id LONG);");
         }

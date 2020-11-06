@@ -3,6 +3,7 @@ package de.cypix.tasks_check_bot.console;
 import de.cypix.tasks_check_bot.main.TasksCheckBot;
 import de.cypix.tasks_check_bot.manager.TasksManager;
 import de.cypix.tasks_check_bot.sql.SQLConnector;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 
 import java.util.Scanner;
 
@@ -74,12 +75,25 @@ public class ConsoleManager extends Thread{
                 }
             }
         }
+        if(args.length >= 3){
+            if(args[0].equalsIgnoreCase("write")){
+                String tag = args[1];
+                StringBuilder message = new StringBuilder();
+                for (int i = 2; i < args.length; i++)
+                    message.append(args[i] + " ");
+                for (PrivateChannel privateChannel : TasksCheckBot.getJda().getPrivateChannels()) {
+                    if(privateChannel.getUser().getAsTag().equals(tag)) {
+                        privateChannel.sendMessage(message.toString()).queue();
+                    }
+                }
+                return;
+            }
+        }
         sendHelp();
     }
 
     private void sendHelp() {
-        System.out.println("Her is gelp....");
-        System.out.println("You can use status,start,stop and restart");
+        System.out.println("No Help for you!");
     }
 
 }
