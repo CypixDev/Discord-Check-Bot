@@ -7,8 +7,6 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.time.LocalDate;
-
 public class MessageListener extends ListenerAdapter {
 
     @Override
@@ -17,25 +15,27 @@ public class MessageListener extends ListenerAdapter {
             SQLManager.insertUser(event.getAuthor());
         }
         if (event.isFromGuild()) {
-            //delete message
-            if (!event.getAuthor().isBot()) {
-                event.getChannel().deleteMessageById(event.getChannel().getLatestMessageId()).queue();
-            } else return;
+            if(event.getChannel().getName().equals("zusammenfassung-beta")){
+                //delete message
+                if (!event.getAuthor().isBot()) {
+                    event.getChannel().deleteMessageById(event.getChannel().getLatestMessageId()).queue();
+                } else return;
 
-            if (!event.getAuthor().hasPrivateChannel()) event.getAuthor().openPrivateChannel().queue();
+                if (!event.getAuthor().hasPrivateChannel()) event.getAuthor().openPrivateChannel().queue();
 
-            //asking private channel id is absolutely useless!
-            for (PrivateChannel privateChannel : TasksCheckBot.getJda().getPrivateChannels()) {
-                if (privateChannel.getUser().getId().equals(event.getAuthor().getId())) {
-                    //just saving privateChannelId
-                    if (SQLManager.isConnected()) {
-                        SQLManager.insertPrivateChannelId(privateChannel.getUser().getIdLong(), privateChannel.getIdLong());
+                //asking private channel id is absolutely useless!
+                for (PrivateChannel privateChannel : TasksCheckBot.getJda().getPrivateChannels()) {
+                    if (privateChannel.getUser().getId().equals(event.getAuthor().getId())) {
+                        //just saving privateChannelId
+                        if (SQLManager.isConnected()) {
+                            SQLManager.insertPrivateChannelId(privateChannel.getUser().getIdLong(), privateChannel.getIdLong());
+                        }
+                        privateChannel.sendMessage("Bitte schreibe nicht in diesen Channel!!!").queue();
                     }
-                    privateChannel.sendMessage("Bitte schreibe nicht in diesen Channel!!!").queue();
                 }
-            }
 
-            return;
+                return;
+            }
         } else {
             if (event.getAuthor().isBot()) return;
             String[] args = event.getMessage().getContentRaw().split(" ");
@@ -67,6 +67,7 @@ public class MessageListener extends ListenerAdapter {
                     SQLManager.insertNewTask(SchoolSubject.getById(subjectId), date, description.toString());
                     System.out.println("Inserted -> " + SchoolSubject.getById(subjectId) + " " + date + " " + description.toString());
                     event.getChannel().sendMessage("Wahrscheinlich erfolgreich hinzugefügt!").queue();
+                    return;
                 }
             }
 

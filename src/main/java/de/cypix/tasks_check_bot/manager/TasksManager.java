@@ -20,8 +20,8 @@ public class TasksManager {
     }
 
     public static void updateTaskOverview(){
-        Guild guild = TasksCheckBot.getJda().getGuildsByName("Server von Cypix", false).get(0);
-        TextChannel channel = TasksCheckBot.getJda().getTextChannelsByName("Allgemein", false).get(0);
+        //Guild guild = TasksCheckBot.getJda().getGuildsByName("Server von Cypix", false).get(0);
+        TextChannel channel = TasksCheckBot.getJda().getTextChannelsByName("zusammenfassung-beta", false).get(0);
         //remove old message
         channel.getIterableHistory().forEach(e -> {
             e.delete().queue();
@@ -33,13 +33,13 @@ public class TasksManager {
             List<SchoolTask> list = SQLManager.getAllTasks(value);
             for (SchoolTask schoolTask : list) {
                 message.append(schoolTask.getSchoolSubject().getId()+
-                        ". "+schoolTask.getSchoolSubject().getSubjectName()+
-                        " "+schoolTask.getSchoolSubject().getEmoji()+
-                        " -> Besch.: "+schoolTask.getTaskDescription()+
-                        " Abgabe: "+schoolTask.getDeliveryDay());
+                        ". *"+schoolTask.getSchoolSubject().getSubjectName()+"*"+
+                        " "+(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : "")+
+                        " -> Beschreibung: ```"+schoolTask.getTaskDescription()+"```"+
+                        " Abgabe: **"+schoolTask.getDeliveryDay()+"**");
                 message.append("\n");
             }
-            message.append("\n");
+            if(list.size() > 0) message.append("\n");
         }
         channel.sendMessage(message.toString()).queue();
 

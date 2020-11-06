@@ -33,8 +33,9 @@ public class ConsoleManager extends Thread{
         }
 
         if(args.length == 1){
-            if(args[0].equalsIgnoreCase("delete")){
+            if(args[0].equalsIgnoreCase("update")){
                 TasksManager.updateTaskOverview();
+                System.out.println("updated!");
             }
             if(args[0].equalsIgnoreCase("status")){
                 System.out.println("SQL is "+(TasksCheckBot.getSqlConnector() != null && TasksCheckBot.getSqlConnector().isConnected() ? "connected" : "disconnected"));
