@@ -77,7 +77,7 @@
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
-                            <outputFile>C:\Users\pikon\Desktop\§{artifactId}.jar</outputFile>
+                            <outputFile>C:\Users\pikon\Desktop\${artifactId}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
