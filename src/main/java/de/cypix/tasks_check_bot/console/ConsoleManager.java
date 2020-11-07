@@ -43,6 +43,13 @@ public class ConsoleManager extends Thread{
                 System.out.println("Bot is "+(TasksCheckBot.getJda().isUnavailable(400) ? "Offline" : "Online"));
                 return;
             }
+            if(args[0].equalsIgnoreCase("stop")){
+                System.out.println("Shutting everything down....");
+                TasksCheckBot.getSqlConnector().closeConnection();
+                TasksCheckBot.getJda().shutdownNow();
+                System.exit(1);
+                return;
+            }
         }
         if(args.length == 2){
             if(args[0].equalsIgnoreCase("start")){
@@ -57,6 +64,18 @@ public class ConsoleManager extends Thread{
                 if(args[1].equalsIgnoreCase("all")){
                     TasksCheckBot.getInstance().startSQL();
                     TasksCheckBot.getInstance().startBot(true);
+                    return;
+                }
+            }
+            if(args[0].equalsIgnoreCase("stop")){
+                if(args[1].equalsIgnoreCase("sql")){
+                    TasksCheckBot.getSqlConnector().closeConnection();
+                    System.out.println("Closed connection to sql");
+                    return;
+                }
+                if(args[1].equalsIgnoreCase("bot")){
+                    TasksCheckBot.getJda().shutdownNow();
+                    System.out.println("Bot is now offline!");
                     return;
                 }
             }
