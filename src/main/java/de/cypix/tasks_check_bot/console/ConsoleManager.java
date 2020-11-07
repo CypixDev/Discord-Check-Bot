@@ -57,6 +57,7 @@ public class ConsoleManager extends Thread{
                 if(args[1].equalsIgnoreCase("all")){
                     TasksCheckBot.getInstance().startSQL();
                     TasksCheckBot.getInstance().startBot(true);
+                    return;
                 }
             }
         }

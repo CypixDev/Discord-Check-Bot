@@ -1,6 +1,5 @@
 package de.cypix.tasks_check_bot.sql;
 
-import de.cypix.tasks_check_bot.configuration.ConfigManager;
 import de.cypix.tasks_check_bot.main.TasksCheckBot;
 
 import java.sql.*;
