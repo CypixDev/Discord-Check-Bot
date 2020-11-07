@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>Discord-Tasks-Check-Bot</artifactId>
-    <version>1.0-RELEASE</version>
+    <version>1.5-RELEASE</version>
 
     <repositories>
         <repository>
@@ -94,7 +94,4 @@
             </resource>
         </resources>
     </build>
-
-
-
 </project>
