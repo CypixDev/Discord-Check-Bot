@@ -10,7 +10,12 @@ public class Config {
     // Hier schreibst du deine Attribute hin
     public String token;
     public String channelName;
+    public String sqlHost;
+    public String sqlUser;
+    public String sqlDatabase;
     public String sqlPassword;
+    public int sqlPort;
+    public String guildName;
 /*    public int WIDTH;
     public int HEIGHT;
     public double RATIO;
@@ -22,10 +27,13 @@ public class Config {
         this.token = "put here your token";
         this.channelName = "put here your channelname";
         this.sqlPassword = "123456";
-/*        this.WIDTH = 800;
-        this.HEIGHT = 600;
-        this.RATIO = 0.6;
-        this.NAMES = new ArrayList<String>();
+        this.guildName = "Name of you Guild";
+        this.sqlHost = "localhost";
+        this.sqlUser = "Task_Check_Bot";
+        this.sqlDatabase = "Task_Check_Bot";
+        this.sqlPort = 3306;
+
+/*        this.NAMES = new ArrayList<String>();
         this.NAMES.add("Peter");
         this.NAMES.add("Paul");*/
     }
