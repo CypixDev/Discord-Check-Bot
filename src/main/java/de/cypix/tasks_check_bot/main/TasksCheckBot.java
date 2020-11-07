@@ -1,7 +1,6 @@
 package de.cypix.tasks_check_bot.main;
 
-import de.cypix.tasks_check_bot.commands.CMDHelp;
-import de.cypix.tasks_check_bot.commands.CMDPing;
+import de.cypix.tasks_check_bot.commands.cmd.*;
 import de.cypix.tasks_check_bot.commands.CommandManager;
 import de.cypix.tasks_check_bot.configuration.ConfigManager;
 import de.cypix.tasks_check_bot.console.ConsoleManager;
@@ -44,6 +43,10 @@ public class TasksCheckBot {
     private static void registerCommands() {
         commandManager.registerCommand("help", new CMDHelp());
         commandManager.registerCommand("ping", new CMDPing());
+        commandManager.registerCommand("deltask", new CMDDelTask());
+        commandManager.registerCommand("addtask", new CMDAddTask());
+        commandManager.registerCommand("delalltasks", new CMDDelAllTasks());
+        commandManager.registerCommand("archive", new CMDArchive());
     }
 
     public static ConfigManager getConfigManager() {

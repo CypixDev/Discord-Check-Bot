@@ -69,7 +69,7 @@ public class MessageListener extends ListenerAdapter {
             if (args.length == 2) {
                 //delete task -> delTask <task-id>
                 if (args[0].equalsIgnoreCase("deltask")) {
-                    int taskId = -1;
+/*                    int taskId = -1;
                     try {
                         taskId = Integer.parseInt(args[1]);
                         if (!SQLManager.taskExists(taskId)) {
@@ -82,11 +82,11 @@ public class MessageListener extends ListenerAdapter {
                     }
                     SQLManager.delTask(taskId);
                     event.getChannel().sendMessage("Erfolgreich gelöscht!").queue();
-                    return;
+                    return;*/
                 }
                 //dell tasks from subject -> delAllTasks <subject-id>
                 if (args[0].equalsIgnoreCase("delAllTasks")) {
-                    int subjectId;
+                   /* int subjectId;
                     try {
                         subjectId = Integer.parseInt(args[1]);
                         //check if its > than 0 and < than max schoolSubject id
@@ -99,10 +99,10 @@ public class MessageListener extends ListenerAdapter {
                     int count = SQLManager.getAllTasks(SchoolSubject.getById(subjectId)).size();
                     SQLManager.delTasksFromSubject(SchoolSubject.getById(subjectId));
                     event.getChannel().sendMessage("Erfolgreich " + count + " Tasks gelöscht!").queue();
-                    return;
+                    return;*/
                 }
                 if(args[0].equalsIgnoreCase("archive")){
-                    int taskId = -1;
+/*                    int taskId = -1;
                     try {
                         taskId = Integer.parseInt(args[1]);
                         if (!SQLManager.taskExists(taskId)) {
@@ -115,14 +115,14 @@ public class MessageListener extends ListenerAdapter {
                     }
                     SQLManager.delTask(taskId);
                     event.getChannel().sendMessage("Erfolgreich gelöscht!").queue();
-                    return;
+                    return;*/
                 }
             }
 
             //addtask
             if (args.length >= 4) {
                 //Add Task -> addTask <Num-Subject>(show with 'list') [Day/Date] [Description]
-                if (args[0].equalsIgnoreCase("addtask")) {
+/*                if (args[0].equalsIgnoreCase("addtask")) {
                     int subjectId;
                     try {
                         subjectId = Integer.parseInt(args[1]);
@@ -143,10 +143,10 @@ public class MessageListener extends ListenerAdapter {
                     System.out.println("Inserted -> " + SchoolSubject.getById(subjectId) + " " + date + " " + description.toString());
                     event.getChannel().sendMessage("Wahrscheinlich erfolgreich hinzugefügt!").queue();
                     return;
-                }
+                }*/
                 //update task -> updateTask <task-id(not subject id)> <description/DeadLine/Link/subject> [new thing]
                 if (args[0].equalsIgnoreCase("updateTask")) {
-                    int taskId = -1;
+/*                    int taskId = -1;
                     try {
                         taskId = Integer.parseInt(args[1]);
                         if (!SQLManager.taskExists(taskId)) {
@@ -195,11 +195,11 @@ public class MessageListener extends ListenerAdapter {
                         SQLManager.updateSubject(taskId, subjectId);
                         event.getChannel().sendMessage("Erfolgreich aktuallisiert!").queue();
                         return;
-                    }
+                    }*/
                 }
             }
 
-            event.getChannel().sendMessage("Benutzte 'help' zum anzeigen all deiner möglichkeiten").queue();
+            //event.getChannel().sendMessage("Benutzte 'help' zum anzeigen all deiner möglichkeiten").queue();
             return;
         }
     }

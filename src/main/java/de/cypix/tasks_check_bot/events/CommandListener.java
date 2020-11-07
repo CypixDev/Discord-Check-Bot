@@ -4,6 +4,7 @@ import de.cypix.tasks_check_bot.main.TasksCheckBot;
 import de.cypix.tasks_check_bot.sql.SQLManager;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class CommandListener extends ListenerAdapter {
@@ -20,7 +21,11 @@ public class CommandListener extends ListenerAdapter {
 
             //disallow writing in info-channel and delete message
             if (!event.getAuthor().isBot()) {
-                event.getChannel().deleteMessageById(event.getChannel().getLatestMessageId()).queue();
+                try{
+
+                }catch(ErrorResponseException e){
+                    //TODO: nix?
+                }
             } else return;
             return;
         }

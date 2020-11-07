@@ -29,7 +29,8 @@ public class TasksManager {
             for (SchoolTask schoolTask : list) {
                 message.append(schoolTask.getTaskId()+
                         ". *"+schoolTask.getSchoolSubject().getSubjectName()+"* " +
-                        ""+(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : " | Deadline: ** "+schoolTask.getDeliveryDay()+"**")+
+                        ""+(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : "")+
+                                " | Deadline: ** "+schoolTask.getDeliveryDay()+"**"+
                         " ```"+schoolTask.getTaskDescription()+"```");
                 message.append("\n");
             }

@@ -1,4 +1,4 @@
-package de.cypix.tasks_check_bot.commands;
+package de.cypix.tasks_check_bot.commands.cmd;
 
 import de.cypix.tasks_check_bot.commands.types.PrivateCommand;
 import net.dv8tion.jda.api.entities.Member;
