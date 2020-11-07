@@ -16,6 +16,7 @@ public class Config {
     public String sqlPassword;
     public int sqlPort;
     public String guildName;
+    public boolean startAutomatically;
 /*    public int WIDTH;
     public int HEIGHT;
     public double RATIO;
@@ -32,6 +33,7 @@ public class Config {
         this.sqlUser = "Task_Check_Bot";
         this.sqlDatabase = "Task_Check_Bot";
         this.sqlPort = 3306;
+        this.startAutomatically = false;
 
 /*        this.NAMES = new ArrayList<String>();
         this.NAMES.add("Peter");

@@ -40,6 +40,11 @@ public class TasksCheckBot {
         commandManager = new CommandManager();
 
         registerCommands();
+
+        if(configManager.isStatingAutomatically()){
+            instance.startSQL();
+            instance.startBot(true);
+        }
     }
 
     private static void registerCommands() {
@@ -57,6 +62,11 @@ public class TasksCheckBot {
 
     public static TasksCheckBot getInstance() {
         return instance;
+    }
+
+    public void startSQL(){
+        sqlConnector = new SQLConnector(true);
+        System.out.println("Stated SQL....");
     }
 
     public void startBot(String token) {
@@ -83,13 +93,41 @@ public class TasksCheckBot {
         }catch(Exception e){
             e.printStackTrace();
         }
+        System.out.println("Started Bot...");
+
+    }
+    public void startBot(boolean fromConfig) {
+        try{
+            builder = JDABuilder.createDefault(configManager.getToken());
+
+            // Disable parts of the cache
+            builder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
+            // Enable the bulk delete event
+            builder.setBulkDeleteSplittingEnabled(false);
+            // Disable compression (not recommended)
+            builder.setCompression(Compression.NONE);
+            // Set activity (like "playing Something")
+            builder.setActivity(Activity.watching("School work"));
+
+            configureMemoryUsage();
+
+            jda = builder.build();
+
+            jda.addEventListener(new ReadyListener());
+            jda.addEventListener(new CommandListener());
+            jda.addEventListener(new UserLogger());
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        System.out.println("Started Bot...");
     }
     public void configureMemoryUsage() {
         // Disable cache for member activities (streaming/games/spotify)
         builder.disableCache(CacheFlag.ACTIVITY); //TODO: maybe later...
 
         // Only cache members who are either in a voice channel or owner of the guild
-        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL.and(MemberCachePolicy.ONLINE));
 
         // Disable member chunking on startup
         //builder.setChunkingFilter(ChunkingFilter.NONE);

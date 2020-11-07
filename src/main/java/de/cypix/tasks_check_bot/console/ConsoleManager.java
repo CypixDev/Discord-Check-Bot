@@ -47,20 +47,16 @@ public class ConsoleManager extends Thread{
         if(args.length == 2){
             if(args[0].equalsIgnoreCase("start")){
                 if(args[1].equalsIgnoreCase("bot")){
-                    TasksCheckBot.getInstance().startBot(TasksCheckBot.getConfigManager().getToken());
-                    System.out.println("Started Bot...");
+                    TasksCheckBot.getInstance().startBot(true);
                     return;
                 }
                 if(args[1].equalsIgnoreCase("sql")){
-                    TasksCheckBot.setSqlConnector(new SQLConnector(true));
-                    System.out.println("Stated SQL....");
+                    TasksCheckBot.getInstance().startSQL();
                     return;
                 }
                 if(args[1].equalsIgnoreCase("all")){
-                    TasksCheckBot.setSqlConnector(new SQLConnector(true));
-                    System.out.println("Stated SQL....");
-                    TasksCheckBot.getInstance().startBot(TasksCheckBot.getConfigManager().getToken());
-                    System.out.println("Started Bot...");
+                    TasksCheckBot.getInstance().startSQL();
+                    TasksCheckBot.getInstance().startBot(true);
                 }
             }
         }

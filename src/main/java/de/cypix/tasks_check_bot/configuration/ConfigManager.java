@@ -29,6 +29,8 @@ public class ConfigManager {
     public String getSQLDatabase() {return Config.getInstance().sqlDatabase;}
     public int getSQLPort() {return Config.getInstance().sqlPort;}
 
+    public boolean isStatingAutomatically(){return Config.getInstance().startAutomatically;}
+
 
     public String getChannelName(){return Config.getInstance().channelName;}
 
