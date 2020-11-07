@@ -1,5 +1,8 @@
 package de.cypix.tasks_check_bot.sql;
 
+import de.cypix.tasks_check_bot.configuration.ConfigManager;
+import de.cypix.tasks_check_bot.main.TasksCheckBot;
+
 import java.sql.*;
 
 public class SQLConnector {
@@ -23,6 +26,21 @@ public class SQLConnector {
         SQLConnector.instance = this;
         connect();
         createTable();
+    }
+
+    public SQLConnector(boolean fromConfig){
+        if(fromConfig){
+            this.host = TasksCheckBot.getConfigManager().getSQLHost();
+            this.database = TasksCheckBot.getConfigManager().getSQLDatabase();
+            this.user = TasksCheckBot.getConfigManager().getSQLUser();
+            this.password = TasksCheckBot.getConfigManager().getSQLPassword();
+            this.port = TasksCheckBot.getConfigManager().getSQLPort();
+            firstConnected = false;
+
+            SQLConnector.instance = this;
+            connect();
+            createTable();
+        }
     }
 
     private void createTable() {
@@ -103,6 +121,7 @@ public class SQLConnector {
             firstConnected = true;
         } catch (SQLException e) {
             e.printStackTrace();
+            firstConnected = false;
         }
     }
 
