@@ -17,6 +17,6 @@ public class CMDHelp implements PrivateCommand {
                     "Um alle Aufgaben eines faches zu entfernen: ```delAllTasks <subject-id>```\n" + //length -> 2
                     "Dein Ping bekommst du mit ```ping```\n" +
                     "").queue();
-        }else messageChannel.sendMessage("Bitte benutzte nur 'help'");
+        }else messageChannel.sendMessage("Bitte benutzte nur 'help'").queue();
     }
 }
