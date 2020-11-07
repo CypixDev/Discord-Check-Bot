@@ -15,7 +15,7 @@ public class CMDHelp implements PrivateCommand {
                     "Um an einer Aufgabe etwas zu verändern verwende: ```updateTask <task-id(not subject id)> <description/DeadLine/Link/subject> [new thing]```\n" + //length >= 4
                     "Um eine Aufgabe zu entfernen Benutze: ```delTask <task-id>```\n" + //length -> 2
                     "Um alle Aufgaben eines faches zu entfernen: ```delAllTasks <subject-id>```\n" + //length -> 2
-                    "\n" +
+                    "Dein Ping bekommst du mit ```ping```\n" +
                     "").queue();
         }else messageChannel.sendMessage("Bitte benutzte nur 'help'");
     }
