@@ -52,10 +52,15 @@ public class ConsoleManager extends Thread{
                     return;
                 }
                 if(args[1].equalsIgnoreCase("sql")){
-                    TasksCheckBot.setSqlConnector(new SQLConnector("localhost", "discrod_tasks",
-                            "root", "", 3306));
+                    TasksCheckBot.setSqlConnector(new SQLConnector(true));
                     System.out.println("Stated SQL....");
                     return;
+                }
+                if(args[1].equalsIgnoreCase("all")){
+                    TasksCheckBot.setSqlConnector(new SQLConnector(true));
+                    System.out.println("Stated SQL....");
+                    TasksCheckBot.getInstance().startBot(TasksCheckBot.getConfigManager().getToken());
+                    System.out.println("Started Bot...");
                 }
             }
         }
