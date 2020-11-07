@@ -16,7 +16,7 @@ public class TasksManager {
 
     public static void updateTaskOverview(){
         //Guild guild = TasksCheckBot.getJda().getGuildsByName("Server von Cypix", false).get(0);
-        TextChannel channel = TasksCheckBot.getJda().getTextChannelsByName("zusammenfassung-beta", false).get(0);
+        TextChannel channel = TasksCheckBot.getJda().getTextChannelsByName(TasksCheckBot.getConfigManager().getChannelName(), true).get(0);
         //remove old message
         channel.getIterableHistory().forEach(e -> {
             e.delete().queue();

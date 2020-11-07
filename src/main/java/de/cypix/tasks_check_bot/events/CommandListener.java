@@ -5,7 +5,6 @@ import de.cypix.tasks_check_bot.sql.SQLManager;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class CommandListener extends ListenerAdapter {
@@ -18,7 +17,7 @@ public class CommandListener extends ListenerAdapter {
         }
 
         if (event.isFromGuild()) {
-            if (event.getChannel().getName().equals("zusammenfassung-beta")) {
+            if (event.getChannel().getName().equals(TasksCheckBot.getConfigManager().getChannelName())) {
                 //delete message
                 if (!event.getAuthor().isBot()) {
                     event.getChannel().deleteMessageById(event.getChannel().getLatestMessageId()).queue();
@@ -38,21 +37,6 @@ public class CommandListener extends ListenerAdapter {
                 }
                 return;
             }
-        }
-
-
-        //writing in channel
-        if (event.getChannel().getName().equals("zusammenfassung-beta")) {
-
-            //disallow writing in info-channel and delete message
-            if (!event.getAuthor().isBot()) {
-                try{
-
-                }catch(ErrorResponseException e){
-                    //TODO: nix?
-                }
-            } else return;
-            return;
         }
 
         String message = event.getMessage().getContentRaw();
