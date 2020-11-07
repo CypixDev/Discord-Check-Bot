@@ -5,14 +5,16 @@ import de.cypix.tasks_check_bot.commands.CommandManager;
 import de.cypix.tasks_check_bot.configuration.ConfigManager;
 import de.cypix.tasks_check_bot.console.ConsoleManager;
 import de.cypix.tasks_check_bot.events.CommandListener;
-import de.cypix.tasks_check_bot.events.MessageListener;
 import de.cypix.tasks_check_bot.events.ReadyListener;
 import de.cypix.tasks_check_bot.events.UserLogger;
 import de.cypix.tasks_check_bot.sql.SQLConnector;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.Compression;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
@@ -70,16 +72,34 @@ public class TasksCheckBot {
             // Set activity (like "playing Something")
             builder.setActivity(Activity.watching("School work"));
 
+            configureMemoryUsage();
+
             jda = builder.build();
 
             jda.addEventListener(new ReadyListener());
-            jda.addEventListener(new MessageListener());
             jda.addEventListener(new CommandListener());
             jda.addEventListener(new UserLogger());
 
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    public void configureMemoryUsage() {
+        // Disable cache for member activities (streaming/games/spotify)
+        builder.disableCache(CacheFlag.ACTIVITY); //TODO: maybe later...
+
+        // Only cache members who are either in a voice channel or owner of the guild
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+
+        // Disable member chunking on startup
+        //builder.setChunkingFilter(ChunkingFilter.NONE);
+
+        // Disable presence updates and typing events
+        //builder.disableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MESSAGE_TYPING);
+
+        // Consider guilds with more than 50 members as "large".
+        // Large guilds will only provide online members in their setup and thus reduce bandwidth if chunking is disabled.
+        //builder.setLargeThreshold(50);
     }
 
     public static void setSqlConnector(SQLConnector sqlConnector) {
