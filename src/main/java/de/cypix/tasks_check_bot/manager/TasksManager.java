@@ -2,7 +2,9 @@ package de.cypix.tasks_check_bot.manager;
 
 import de.cypix.tasks_check_bot.main.TasksCheckBot;
 import de.cypix.tasks_check_bot.sql.SQLManager;
+import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 import java.util.List;
 
@@ -21,23 +23,24 @@ public class TasksManager {
         channel.getIterableHistory().forEach(e -> {
             e.delete().queue();
         });
-        StringBuilder message = new StringBuilder();
-        message.append("Hier Aktuelle Infos über alle Schulaufgaben: \n");
+
+        channel.sendMessage("Hier Aktuelle Infos über alle Schulaufgaben: ").queue();
 
         for (SchoolSubject value : SchoolSubject.values()) {
             List<SchoolTask> list = SQLManager.getAllTasks(value);
             for (SchoolTask schoolTask : list) {
-                message.append(schoolTask.getTaskId()+
+                MessageAction messageAction = channel.sendMessage(schoolTask.getTaskId()+
                         ". *"+schoolTask.getSchoolSubject().getSubjectName()+"* " +
                         ""+(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : "")+
-                                " | Deadline: ** "+schoolTask.getDeliveryDay()+"**"+
+                        " | Deadline: ** "+schoolTask.getDeliveryDay()+"**"+
                         " ```"+schoolTask.getTaskDescription()+"```");
-                message.append("\n");
+
+                messageAction.queue(e -> {
+                    channel.addReactionById(e.getId(), "U+2705").queue();
+                    channel.addReactionById(e.getId(), "U+274C").queue();
+                    channel.addReactionById(e.getId(), "U+2753").queue();
+                });
             }
-            if(list.size() > 0) message.append("\n");
         }
-        channel.sendMessage(message.toString()).queue();
-
-
     }
 }

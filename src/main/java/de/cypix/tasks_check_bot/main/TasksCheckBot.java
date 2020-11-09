@@ -5,6 +5,7 @@ import de.cypix.tasks_check_bot.commands.CommandManager;
 import de.cypix.tasks_check_bot.configuration.ConfigManager;
 import de.cypix.tasks_check_bot.console.ConsoleManager;
 import de.cypix.tasks_check_bot.events.CommandListener;
+import de.cypix.tasks_check_bot.events.ReactionListener;
 import de.cypix.tasks_check_bot.events.ReadyListener;
 import de.cypix.tasks_check_bot.events.UserLogger;
 import de.cypix.tasks_check_bot.sql.SQLConnector;
@@ -89,6 +90,7 @@ public class TasksCheckBot {
 
             jda.addEventListener(new ReadyListener());
             jda.addEventListener(new CommandListener());
+            jda.addEventListener(new ReactionListener());
             jda.addEventListener(new UserLogger());
 
         }catch(Exception e){
@@ -116,6 +118,7 @@ public class TasksCheckBot {
 
             jda.addEventListener(new ReadyListener());
             jda.addEventListener(new CommandListener());
+            jda.addEventListener(new ReactionListener());
             jda.addEventListener(new UserLogger());
 
         }catch(Exception e){
