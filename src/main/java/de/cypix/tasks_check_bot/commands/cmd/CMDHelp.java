@@ -16,7 +16,8 @@ public class CMDHelp implements PrivateCommand {
                     "Um eine Aufgabe zu entfernen Benutze: ```delTask <task-id>```\n" + //length -> 2
                     "Um alle Aufgaben eines faches zu entfernen: ```delAllTasks <subject-id>```\n" + //length -> 2
                     "Dein Ping bekommst du mit ```ping```\n" +
-                    "Damit du weißt welches Fach welche nummer hat, benutzte ```list```").queue();
+                    "Damit du weißt welches Fach welche nummer hat, benutzte ```list```\n" +
+                    "Um einen File zu einem bestehenden Task hinzuzufügen: ```ziehe den File per drag and drop auf den Bot und füge als kommentar folgendese hinzu: addfile <taskId>```").queue();
         }else messageChannel.sendMessage("Bitte benutzte nur 'help'").queue();
     }
 }

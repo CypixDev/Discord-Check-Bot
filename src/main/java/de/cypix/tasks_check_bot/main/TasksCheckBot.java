@@ -56,6 +56,7 @@ public class TasksCheckBot {
         commandManager.registerCommand("delalltasks", new CMDDelAllTasks());
         commandManager.registerCommand("archive", new CMDArchive());
         commandManager.registerCommand("list", new CMDList());
+        commandManager.registerCommand("addfile", new CMDAddFile());
     }
 
     public static ConfigManager getConfigManager() {

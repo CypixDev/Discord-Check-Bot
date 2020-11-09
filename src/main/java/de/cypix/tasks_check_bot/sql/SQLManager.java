@@ -27,6 +27,18 @@ public class SQLManager {
         }
         return -1;
     }
+    public static SchoolSubject getSchoolSubjectByTaskId(int taskId){
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * FROM task WHERE task_id="+taskId);
+        try {
+            if(rs.next()){
+                return SchoolSubject.getById(rs.getInt("subject_id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static int getLocalIdByDiscordId(long userId){
         ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * from user WHERE discord_id="+userId+";");
         try {

@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
+import java.io.File;
 import java.util.List;
 
 public class TasksManager {
@@ -34,6 +35,10 @@ public class TasksManager {
                         ""+(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : "")+
                         " | Deadline: ** "+schoolTask.getDeliveryDay()+"**"+
                         " ```"+schoolTask.getTaskDescription()+"```");
+
+                for (File file : FileManager.getFilesFromTask(schoolTask.getTaskId())) {
+                    messageAction.addFile(file).queue();
+                }
 
                 messageAction.queue(e -> {
                     channel.addReactionById(e.getId(), "U+2705").queue();
