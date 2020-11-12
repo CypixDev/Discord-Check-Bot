@@ -85,6 +85,36 @@ public class SQLManager {
         }
         return list;
     }
+    public static List<Integer> getAllTasks(){
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT task_id FROM task" +
+                " WHERE task_deadline > DATE_SUB(NOW(),INTERVAL 2 DAY)");
+        List<Integer> list = new ArrayList<>();
+        try{
+            while(rs.next()){
+                list.add(rs.getInt("task_id"));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static SchoolTask getTaskInfo(int taskId){
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * FROM task WHERE task_id="+taskId+
+                " AND task_deadline > DATE_SUB(NOW(),INTERVAL 2 DAY)");
+        try{
+            if(rs.next()){
+                return new SchoolTask(rs.getInt("task_id"),
+                        SchoolSubject.getById(rs.getInt("subject_id")),
+                        rs.getString("task_description"),
+                        rs.getString("task_link"),
+                        rs.getTimestamp("task_deadline").toLocalDateTime());
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static boolean taskExists(int taskId){
         try {

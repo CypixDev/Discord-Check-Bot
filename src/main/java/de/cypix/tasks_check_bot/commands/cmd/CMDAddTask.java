@@ -2,6 +2,7 @@ package de.cypix.tasks_check_bot.commands.cmd;
 
 import de.cypix.tasks_check_bot.commands.types.PrivateCommand;
 import de.cypix.tasks_check_bot.manager.SchoolSubject;
+import de.cypix.tasks_check_bot.manager.TasksManager;
 import de.cypix.tasks_check_bot.sql.SQLManager;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -26,7 +27,7 @@ public class CMDAddTask implements PrivateCommand {
         String date = args[2];
         StringBuilder description = new StringBuilder();
         for (int i = 3; i < args.length; i++) {
-            description.append(args[i] + " ");
+            description.append(args[i]).append(" ");
         }
         SQLManager.insertNewTask(SchoolSubject.getById(subjectId), date, description.toString());
         System.out.println("Inserted -> " + SchoolSubject.getById(subjectId) + " " + date + " " + description.toString());

@@ -9,12 +9,11 @@ import de.cypix.tasks_check_bot.events.ReactionListener;
 import de.cypix.tasks_check_bot.events.ReadyListener;
 import de.cypix.tasks_check_bot.events.UserLogger;
 import de.cypix.tasks_check_bot.manager.TasksManager;
+import de.cypix.tasks_check_bot.scheduler.CheckScheduler;
 import de.cypix.tasks_check_bot.sql.SQLConnector;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -52,6 +51,12 @@ public class TasksCheckBot {
             instance.startSQL();
             instance.startBot(true);
         }
+        CheckScheduler scheduler = new CheckScheduler(new Runnable() {
+            @Override
+            public void run() {
+                TasksManager.updateAllTasks();
+            }
+        }, 10);
     }
 
     private static void setupLogger() {
