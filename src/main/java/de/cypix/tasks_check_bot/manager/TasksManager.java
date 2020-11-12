@@ -48,10 +48,13 @@ public class TasksManager {
         TextChannel channel = TasksCheckBot.getJda().getTextChannelsByName(TasksCheckBot.getConfigManager().getChannelName(), true).get(0);
         for (Message message : channel.getIterableHistory().complete()) {
             if(Integer.parseInt(message.getContentRaw().split(" ")[0].replace(".", "")) == taskId){
-                message.delete().queue(e -> {
-                    System.out.println("Task "+taskId+" is now not longer shown!");
-                });
-                //TODO: remove all files above it!
+                try{
+                    message.delete().queue(e -> {
+                        System.out.println("Task "+taskId+" is now not longer shown!");
+                    });
+                }catch (ErrorResponseException e){
+                    //none
+                }
             }
 
         }
