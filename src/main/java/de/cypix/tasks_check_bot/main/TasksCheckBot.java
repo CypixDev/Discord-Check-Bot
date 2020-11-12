@@ -56,7 +56,7 @@ public class TasksCheckBot {
             public void run() {
                 TasksManager.updateAllTasks();
             }
-        }, 10);
+        }, 60);
     }
 
     private static void setupLogger() {
