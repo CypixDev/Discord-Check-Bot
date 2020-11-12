@@ -69,7 +69,8 @@ public class SQLManager {
         TasksCheckBot.getSqlConnector().executeUpdate("INSERT INTO task(subject_id, task_description, task_deadline) VALUES ("+schoolSubject.getId()+", '"+description+"', '"+till+"');");
     }
     public static List<SchoolTask> getAllTasks(SchoolSubject schoolSubject){
-        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * FROM task WHERE subject_id="+schoolSubject.getId());
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * FROM task WHERE subject_id="+schoolSubject.getId()+"" +
+                " AND task_deadline > DATE_SUB(NOW(),INTERVAL 2 DAY)");
         List<SchoolTask> list = new ArrayList<>();
         try{
             while(rs.next()){
@@ -77,7 +78,7 @@ public class SQLManager {
                         schoolSubject,
                         rs.getString("task_description"),
                         rs.getString("task_link"),
-                        rs.getDate("task_deadline")));
+                        rs.getTimestamp("task_deadline").toLocalDateTime()));
             }
         }catch(SQLException e){
             e.printStackTrace();
