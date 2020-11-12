@@ -1,12 +1,9 @@
 package de.cypix.tasks_check_bot.commands.types;
 
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 
 public interface PrivateCommand {
 
-    public void performCommand(Member member, MessageChannel messageChannel, Message message, String[] args);
+    public void performCommand(User user, MessageChannel messageChannel, Message message, String[] args);
 
 }

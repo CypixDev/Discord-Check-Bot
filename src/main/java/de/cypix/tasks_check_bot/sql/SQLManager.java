@@ -67,7 +67,6 @@ public class SQLManager {
 
     public static void insertNewTask(SchoolSubject schoolSubject, String till, String description){
         TasksCheckBot.getSqlConnector().executeUpdate("INSERT INTO task(subject_id, task_description, task_deadline) VALUES ("+schoolSubject.getId()+", '"+description+"', '"+till+"');");
-        TasksManager.updateTaskOverview();
     }
     public static List<SchoolTask> getAllTasks(SchoolSubject schoolSubject){
         ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * FROM task WHERE subject_id="+schoolSubject.getId());
@@ -78,7 +77,7 @@ public class SQLManager {
                         schoolSubject,
                         rs.getString("task_description"),
                         rs.getString("task_link"),
-                        rs.getString("task_deadline")));
+                        rs.getDate("task_deadline")));
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -98,37 +97,71 @@ public class SQLManager {
         if(taskExists(taskId)){
             TasksCheckBot.getSqlConnector().executeUpdate("UPDATE task WHERE task_id="+taskId+" SET task_description='"+description+"';");
         }
-        TasksManager.updateTaskOverview();
     }
     public static void updateDeadLine(int taskId, String deadLine){
         if(taskExists(taskId)){
             TasksCheckBot.getSqlConnector().executeUpdate("UPDATE task WHERE task_id="+taskId+" SET task_deadline='"+deadLine+"';");
         }
-        TasksManager.updateTaskOverview();
     }
     public static void updateLink(int taskId, String link){
         if(taskExists(taskId)){
             TasksCheckBot.getSqlConnector().executeUpdate("UPDATE task WHERE task_id="+taskId+" SET task_link='"+link+"';");
         }
-        TasksManager.updateTaskOverview();
-
     }
     public static void updateSubject(int taskId, SchoolSubject schoolSubject){
         if(taskExists(taskId)){
             TasksCheckBot.getSqlConnector().executeUpdate("UPDATE task WHERE task_id="+taskId+" SET subject_id="+schoolSubject.getId()+";");
         }
-        TasksManager.updateTaskOverview();
+    }
+    public static int getUserId(long discordId){
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT user_id FROM user WHERE discord_id="+discordId+";");
+        try {
+            if(rs.next()){
+                return rs.getInt("user_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    public static boolean markAsFinish(int userId, int taskId){
+        if(!isTaskFinished(userId, taskId)){
+            TasksCheckBot.getSqlConnector().executeUpdate("INSERT INTO finish_user() VALUES ("+userId+","+taskId+")");
+            return true;
+        }else return false;
+    }
+    public static List<String> getFinishedTasksDiscordNames(int taskId){
+        List<String> names = new ArrayList<>();
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet(
+                "SELECT discord_name FROM finish_user" +
+                " INNER JOIN user ON user.user_id = finish_user.user_id" +
+                        " WHERE task_Id="+taskId+";");
+        try{
+            while(rs.next()){
+                names.add(rs.getString("discord_name"));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return names;
+    }
+    public static boolean isTaskFinished(int userId, int taskId){
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * FROM finish_user WHERE user_id="+userId+" AND task_id="+taskId+";");
+        try {
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     public static void updateSubject(int taskId, int subjectId){
         if(taskExists(taskId)){
             TasksCheckBot.getSqlConnector().executeUpdate("UPDATE task WHERE task_id="+taskId+" SET subject_id="+subjectId+";");
         }
-        TasksManager.updateTaskOverview();
     }
 
     public static void delTask(int taskId){
         TasksCheckBot.getSqlConnector().executeUpdate("DELETE FROM task WHERE task_id="+taskId+";");
-        TasksManager.updateTaskOverview();
     }
 
     public static void delTasksFromSubject(SchoolSubject schoolSubject){
@@ -139,4 +172,7 @@ public class SQLManager {
 
     }
 
+    public static void markAsNotFinish(int userId, int taskId) {
+        TasksCheckBot.getSqlConnector().executeUpdate("DELETE FROM finish_user WHERE user_id="+userId+" AND task_id="+taskId);
+    }
 }

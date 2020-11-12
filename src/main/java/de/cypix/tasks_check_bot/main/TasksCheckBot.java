@@ -8,6 +8,7 @@ import de.cypix.tasks_check_bot.events.CommandListener;
 import de.cypix.tasks_check_bot.events.ReactionListener;
 import de.cypix.tasks_check_bot.events.ReadyListener;
 import de.cypix.tasks_check_bot.events.UserLogger;
+import de.cypix.tasks_check_bot.manager.TasksManager;
 import de.cypix.tasks_check_bot.sql.SQLConnector;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -17,6 +18,9 @@ import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 
@@ -31,9 +35,11 @@ public class TasksCheckBot {
     private static ConsoleManager consoleManager;
     private static SQLConnector sqlConnector;
     private static CommandManager commandManager;
+    private static Logger logger;
 
 
     public static void main(String[] args) throws LoginException {
+        setupLogger();
         instance = new TasksCheckBot();
         configManager = new ConfigManager();
         consoleManager = new ConsoleManager();
@@ -48,15 +54,26 @@ public class TasksCheckBot {
         }
     }
 
+    private static void setupLogger() {
+        logger = LoggerFactory.getLogger(TasksCheckBot.class);
+        PropertyConfigurator.configure("log4j.properties");
+        logger.info("dings");
+        logger.error("dings");
+    }
+
     private static void registerCommands() {
         commandManager.registerCommand("help", new CMDHelp());
         commandManager.registerCommand("ping", new CMDPing());
         commandManager.registerCommand("deltask", new CMDDelTask());
         commandManager.registerCommand("addtask", new CMDAddTask());
         commandManager.registerCommand("delalltasks", new CMDDelAllTasks());
+        commandManager.registerCommand("updatetask", new CMDUpdateTask());
         commandManager.registerCommand("archive", new CMDArchive());
         commandManager.registerCommand("list", new CMDList());
         commandManager.registerCommand("addfile", new CMDAddFile());
+        commandManager.registerCommand("update", new CMDUpdate());
+        commandManager.registerCommand("todo", new CMDTodo());
+        logger.info("Registered all tasks!");
     }
 
     public static ConfigManager getConfigManager() {

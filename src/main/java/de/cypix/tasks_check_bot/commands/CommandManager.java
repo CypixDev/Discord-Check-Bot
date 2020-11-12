@@ -4,6 +4,7 @@ import de.cypix.tasks_check_bot.commands.types.PrivateCommand;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,9 +19,9 @@ public class CommandManager {
         this.commands.put(cmdName, privateCommandClass);
     }
     //returns false if command not exists
-    public boolean perform(String command, Member member, MessageChannel messageChannel, Message message, String[] args){
+    public boolean perform(String command, User user, MessageChannel messageChannel, Message message, String[] args){
         if(commands.containsKey(command.toLowerCase())){
-            this.commands.get(command.toLowerCase()).performCommand(member, messageChannel, message, args);
+            this.commands.get(command.toLowerCase()).performCommand(user, messageChannel, message, args);
             return true;
         }
         return false;

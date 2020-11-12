@@ -6,10 +6,11 @@ import de.cypix.tasks_check_bot.sql.SQLManager;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 
 public class CMDDelAllTasks implements PrivateCommand {
     @Override
-    public void performCommand(Member member, MessageChannel messageChannel, Message message, String[] args) {
+    public void performCommand(User user, MessageChannel messageChannel, Message message, String[] args) {
         int subjectId;
         try {
             subjectId = Integer.parseInt(args[1]);

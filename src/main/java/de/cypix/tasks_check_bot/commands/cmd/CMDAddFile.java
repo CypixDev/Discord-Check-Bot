@@ -6,6 +6,7 @@ import de.cypix.tasks_check_bot.sql.SQLManager;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 
 import java.io.*;
 import java.net.URL;
@@ -15,7 +16,7 @@ import java.nio.file.StandardCopyOption;
 
 public class CMDAddFile implements PrivateCommand {
     @Override
-    public void performCommand(Member member, MessageChannel messageChannel, Message message, String[] args) {
+    public void performCommand(User user, MessageChannel messageChannel, Message message, String[] args) {
         if(args.length == 2){
             int taskId = -1;
             try{

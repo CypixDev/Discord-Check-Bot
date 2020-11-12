@@ -44,7 +44,7 @@ public class CommandListener extends ListenerAdapter {
         if(!event.getAuthor().isBot()){
             if(event.getChannel().getType().equals(ChannelType.PRIVATE)){
                 //call command
-                if(!TasksCheckBot.getCommandManager().perform(args[0], event.getMember(), event.getChannel(), event.getMessage(), args)){
+                if(!TasksCheckBot.getCommandManager().perform(args[0], event.getAuthor(), event.getChannel(), event.getMessage(), args)){
                     event.getChannel().sendMessage("Dieser Command ist noch nicht im CommandManager registriert....").queue();
                 }
             }
