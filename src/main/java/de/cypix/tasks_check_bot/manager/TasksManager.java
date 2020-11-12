@@ -7,14 +7,10 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 import java.io.File;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.TextStyle;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Locale;
 
 public class TasksManager {
 
@@ -37,13 +33,90 @@ public class TasksManager {
         for (SchoolSubject value : SchoolSubject.values()) {
             List<SchoolTask> list = SQLManager.getAllTasks(value);
             for (SchoolTask schoolTask : list) {
-                Date deadLine = schoolTask.getDeadLine();
+                LocalDateTime deadLine = schoolTask.getDeadLine();
+                LocalDateTime timeNow = LocalDateTime.now();
+
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.");
+
+                long daysBetween = ChronoUnit.DAYS.between(timeNow, deadLine);
+                long hoursBetween = ChronoUnit.HOURS.between(timeNow, deadLine);
+                long minutesBetween = ChronoUnit.MINUTES.between(timeNow, deadLine);
+
+                StringBuilder deadLineBuilder = new StringBuilder("| Deadline: **")
+                        .append(deadLine.format(formatter)).append(" ");
+                if(hoursBetween < 0){
+                    deadLineBuilder.append("Abgelaufen seit ");
+                    int hours = (int) (hoursBetween*(-1));
+                    if(hours <= 24){
+                        if(hours == 1){
+                            deadLineBuilder.append("einer Stunde ");
+                        }else{
+                            deadLineBuilder.append(hours);
+                            deadLineBuilder.append(" Stunden");
+                        }
+                    }else {
+                        if(daysBetween == -1){
+                            deadLineBuilder.append("einem Tag ");
+                        }else{
+                            deadLineBuilder.append(daysBetween*(-1));
+                            deadLineBuilder.append(" Tagen");
+                        }
+                        int tmp = (int) (hours-(((daysBetween*-1)*24)));
+                        deadLineBuilder.append(" und ");
+                        if(tmp == 1){
+                            deadLineBuilder.append("einer Stunde");
+                        }else{
+                            deadLineBuilder.append(hours-(((daysBetween*-1)*24)));
+                            deadLineBuilder.append(" Stunden");
+
+                        }
+                    }
+                }else{
+                    deadLineBuilder.append("Fällig in: ");
+                    int hours = (int) (hoursBetween);
+
+                    if(hoursBetween >= 24){
+                        //gib in tagen an
+                        if(daysBetween == 1){
+                            deadLineBuilder.append("einem Tag");
+                        }else{
+                            deadLineBuilder.append(daysBetween);
+                            deadLineBuilder.append(" ");
+                            deadLineBuilder.append("Tagen");
+                        }
+                        deadLineBuilder.append(" und ");
+                        deadLineBuilder.append(hours-((daysBetween*24)));
+                        deadLineBuilder.append(" Stunden");
+                    }else{
+                        //gib in stunden an
+                        if(hoursBetween == 1){
+                            deadLineBuilder.append(" einer Stunde ");
+                        }else{
+                            deadLineBuilder.append(hoursBetween);
+                            deadLineBuilder.append(" ");
+                            deadLineBuilder.append("Stunden");
+                        }
+                        deadLineBuilder.append(" und ");
+                        if(minutesBetween == 1){
+                            deadLineBuilder.append("einer Minute");
+                        }else{
+                            deadLineBuilder.append(minutesBetween);
+                            deadLineBuilder.append(" Minuten");
+                        }
+                    }
+                }
+
+
+                deadLineBuilder.append("**");
 
                 MessageAction messageAction = channel.sendMessage(schoolTask.getTaskId()+
                         ". *"+schoolTask.getSchoolSubject().getSubjectName()+"* " +
                         ""+(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : "")+
-                        " | Deadline: ** "+deadLine.toLocalDate().toString()+"**"+
+                        " "+deadLineBuilder.toString()+
                         " ```"+schoolTask.getTaskDescription()+"```");
+
+
 
                 messageAction.queue(e -> {
                     channel.addReactionById(e.getId(), "U+2705").queue();
@@ -56,7 +129,6 @@ public class TasksManager {
             }
         }
     }
-
     public static void sendTodo(MessageChannel channel, long discordId){
         int userId = SQLManager.getUserId(discordId);
         //Guild guild = TasksCheckBot.getJda().getGuildsByName("Server von Cypix", false).get(0);
@@ -67,12 +139,87 @@ public class TasksManager {
             List<SchoolTask> list = SQLManager.getAllTasks(value);
             for (SchoolTask schoolTask : list) {
                 if(!SQLManager.isTaskFinished(userId, schoolTask.getTaskId())){
-                    Date deadLine = schoolTask.getDeadLine();
+                    LocalDateTime deadLine = schoolTask.getDeadLine();
+                    LocalDateTime timeNow = LocalDateTime.now();
+
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.");
+
+                    long daysBetween = ChronoUnit.DAYS.between(timeNow, deadLine);
+                    long hoursBetween = ChronoUnit.HOURS.between(timeNow, deadLine);
+                    long minutesBetween = ChronoUnit.MINUTES.between(timeNow, deadLine);
+
+                    StringBuilder deadLineBuilder = new StringBuilder("| Deadline: **")
+                            .append(deadLine.format(formatter)).append(" ");
+                    if(hoursBetween < 0){
+                        deadLineBuilder.append("Abgelaufen seit ");
+                        int hours = (int) (hoursBetween*(-1));
+                        if(hours <= 24){
+                            if(hours == 1){
+                                deadLineBuilder.append("einer Stunde ");
+                            }else{
+                                deadLineBuilder.append(hours);
+                                deadLineBuilder.append(" Stunden");
+                            }
+                        }else {
+                            if(daysBetween == -1){
+                                deadLineBuilder.append("einem Tag ");
+                            }else{
+                                deadLineBuilder.append(daysBetween*(-1));
+                                deadLineBuilder.append(" Tagen");
+                            }
+                            int tmp = (int) (hours-(((daysBetween*-1)*24)));
+                            deadLineBuilder.append(" und ");
+                            if(tmp == 1){
+                                deadLineBuilder.append("einer Stunde");
+                            }else{
+                                deadLineBuilder.append(hours-(((daysBetween*-1)*24)));
+                                deadLineBuilder.append(" Stunden");
+
+                            }
+                        }
+                    }else{
+                        deadLineBuilder.append("Fällig in: ");
+                        int hours = (int) (hoursBetween);
+
+                        if(hoursBetween >= 24){
+                            //gib in tagen an
+                            if(daysBetween == 1){
+                                deadLineBuilder.append("einem Tag");
+                            }else{
+                                deadLineBuilder.append(daysBetween);
+                                deadLineBuilder.append(" ");
+                                deadLineBuilder.append("Tagen");
+                            }
+                            deadLineBuilder.append(" und ");
+                            deadLineBuilder.append(hours-((daysBetween*24)));
+                            deadLineBuilder.append(" Stunden");
+                        }else{
+                            //gib in stunden an
+                            if(hoursBetween == 1){
+                                deadLineBuilder.append(" einer Stunde ");
+                            }else{
+                                deadLineBuilder.append(hoursBetween);
+                                deadLineBuilder.append(" ");
+                                deadLineBuilder.append("Stunden");
+                            }
+                            deadLineBuilder.append(" und ");
+                            if(minutesBetween == 1){
+                                deadLineBuilder.append("einer Minute");
+                            }else{
+                                deadLineBuilder.append(minutesBetween);
+                                deadLineBuilder.append(" Minuten");
+                            }
+                        }
+                    }
+
+
+                    deadLineBuilder.append("**");
 
                     MessageAction messageAction = channel.sendMessage(schoolTask.getTaskId()+
                             ". *"+schoolTask.getSchoolSubject().getSubjectName()+"* " +
                             ""+(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : "")+
-                            " | Deadline: ** "+deadLine.toLocalDate().toString()+"**"+
+                            " "+deadLineBuilder.toString()+
                             " ```"+schoolTask.getTaskDescription()+"```");
 
 

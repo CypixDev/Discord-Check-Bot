@@ -1,6 +1,7 @@
 package de.cypix.tasks_check_bot.manager;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public class SchoolTask {
 
@@ -9,9 +10,9 @@ public class SchoolTask {
     private String taskDescription;
     //TODO: private List<User> finishedBy;
     private String taskLink;
-    private Date deadLine;
+    private LocalDateTime deadLine;
 
-    public SchoolTask(int taskId, SchoolSubject schoolSubject, String taskDescription, String taskLink, Date deadLine) {
+    public SchoolTask(int taskId, SchoolSubject schoolSubject, String taskDescription, String taskLink, LocalDateTime deadLine) {
         this.taskId = taskId;
         this.schoolSubject = schoolSubject;
         this.taskDescription = taskDescription;
@@ -51,7 +52,7 @@ public class SchoolTask {
         this.taskLink = taskLink;
     }
 
-    public Date getDeadLine() {
+    public LocalDateTime getDeadLine() {
         return deadLine;
     }
 }
