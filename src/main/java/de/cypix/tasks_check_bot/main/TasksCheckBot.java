@@ -17,9 +17,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.apache.log4j.PropertyConfigurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import javax.security.auth.login.LoginException;
 
@@ -34,7 +32,7 @@ public class TasksCheckBot {
     private static ConsoleManager consoleManager;
     private static SQLConnector sqlConnector;
     private static CommandManager commandManager;
-    private static Logger logger;
+    public final static Logger logger = Logger.getLogger(TasksCheckBot.class);
 
 
     public static void main(String[] args) throws LoginException {
@@ -60,8 +58,7 @@ public class TasksCheckBot {
     }
 
     private static void setupLogger() {
-        logger = LoggerFactory.getLogger(TasksCheckBot.class);
-        PropertyConfigurator.configure("log4j.properties");
+
         logger.info("dings");
         logger.error("dings");
     }
