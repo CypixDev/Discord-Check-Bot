@@ -161,7 +161,7 @@ public class TasksManager {
                 if(minutesBetween == 1){
                     deadLineBuilder.append("einer Minute");
                 }else{
-                    deadLineBuilder.append(minutesBetween);
+                    deadLineBuilder.append(minutesBetween-(hoursBetween*60));
                     deadLineBuilder.append(" Minuten");
                 }
             }
@@ -170,13 +170,11 @@ public class TasksManager {
 
         deadLineBuilder.append("**");
 
-        String messageAction = schoolTask.getTaskId()+
+        return schoolTask.getTaskId()+
                 ". *"+schoolTask.getSchoolSubject().getSubjectName()+"* " +
                 ""+(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : "")+
                 " "+deadLineBuilder.toString()+
                 " ```"+schoolTask.getTaskDescription()+"```";
-
-        return messageAction;
 
     }
 
