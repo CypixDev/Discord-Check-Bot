@@ -50,7 +50,7 @@ public class TasksManager {
         for (Message message : channel.getIterableHistory().complete()) {
             if(Integer.parseInt(message.getContentRaw().split(" ")[0].replace(".", "")) == taskId){
                 try{
-                    message.delete().queue(e -> System.out.println("Task "+taskId+" is now not longer shown!"));
+                    message.delete().queue(e -> TasksCheckBot.logger.info("Task "+taskId+" is now not longer shown!"));
                 }catch (ErrorResponseException e){
                     //none
                 }
@@ -83,7 +83,7 @@ public class TasksManager {
                 System.out.println("Added new message to overview!");
             });
         }else System.out.println("Doubled message !");
-
+        TasksCheckBot.logger.info("Added new task to list in "+TasksCheckBot.getConfigManager().getChannelName()+"["+taskId+"]");
     }
 
     public static String getTaskOverview(int taskId){
@@ -295,6 +295,9 @@ public class TasksManager {
         }
     }
     public static void sendTodo(MessageChannel channel, long discordId){
+        long start = System.currentTimeMillis();
+        TasksCheckBot.logger.info("Sending todo ["+discordId+"]....");
+
         int userId = SQLManager.getUserId(discordId);
         //Guild guild = TasksCheckBot.getJda().getGuildsByName("Server von Cypix", false).get(0);
 
@@ -395,6 +398,6 @@ public class TasksManager {
                 }
             }
         }
-
+        TasksCheckBot.logger.info("Sending todo done, takes "+(System.currentTimeMillis()-start)+"millis ["+discordId+"]....");
     }
 }

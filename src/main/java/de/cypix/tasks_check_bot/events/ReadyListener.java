@@ -10,7 +10,7 @@ public class ReadyListener implements EventListener {
     @Override
     public void onEvent(GenericEvent event)
     {
-        if (event instanceof ReadyEvent)
-            TasksCheckBot.logger.info("API is ready!");
+/*TODO        if (event instanceof ReadyEvent)
+            TasksCheckBot.logger.info("API is ready!");*/
     }
 }

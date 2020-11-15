@@ -11,6 +11,7 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        TasksCheckBot.logger.info("Message Received ["+event.getChannel().getName()+"] "+event.getAuthor().getAsTag()+":> "+event.getMessage().getContentRaw());
         //save everyone in database
         if (SQLManager.isConnected()) {
             SQLManager.insertUser(event.getAuthor());
