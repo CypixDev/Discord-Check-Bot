@@ -19,10 +19,18 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
+import java.io.*;
+import java.nio.file.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.logging.*;
 
 public class TasksCheckBot {
 
     private static TasksCheckBot instance;
+
+    public static Logger logger;
 
     private static JDA jda;
     private static JDABuilder builder;
@@ -31,6 +39,7 @@ public class TasksCheckBot {
     private static ConsoleManager consoleManager;
     private static SQLConnector sqlConnector;
     private static CommandManager commandManager;
+
 
 
     public static void main(String[] args) throws LoginException {
@@ -55,9 +64,42 @@ public class TasksCheckBot {
         }, 60);
     }
 
-    private static void setupLogger() {
-
+    private static String calcDate(long milliseconds) {
+        SimpleDateFormat date_format = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+        Date resultDate = new Date(milliseconds);
+        return date_format.format(resultDate);
     }
+
+    private static void setupLogger() {
+        logger = Logger.getLogger("Noyce");
+        FileHandler fh;
+        File file = new File("latest.log");
+        new File("log").mkdirs();
+        if(file.exists()){
+        try {
+            Path source = Paths.get("latest.log");
+            Path target = Paths.get("log/"+calcDate(System.currentTimeMillis())+".log");
+            Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else System.out.println("Log file not exists!");
+        try {
+
+
+            // This block configure the logger with handler and formatter
+            fh = new FileHandler("latest.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private static void registerCommands() {
         commandManager.registerCommand("help", new CMDHelp());
