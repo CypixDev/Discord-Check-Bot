@@ -17,7 +17,6 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.apache.log4j.Logger;
 
 import javax.security.auth.login.LoginException;
 
@@ -32,7 +31,6 @@ public class TasksCheckBot {
     private static ConsoleManager consoleManager;
     private static SQLConnector sqlConnector;
     private static CommandManager commandManager;
-    public final static Logger logger = Logger.getLogger(TasksCheckBot.class);
 
 
     public static void main(String[] args) throws LoginException {
@@ -59,8 +57,6 @@ public class TasksCheckBot {
 
     private static void setupLogger() {
 
-        logger.info("dings");
-        logger.error("dings");
     }
 
     private static void registerCommands() {
@@ -75,7 +71,6 @@ public class TasksCheckBot {
         commandManager.registerCommand("addfile", new CMDAddFile());
         commandManager.registerCommand("update", new CMDUpdate());
         commandManager.registerCommand("todo", new CMDTodo());
-        logger.info("Registered all tasks!");
     }
 
     public static ConfigManager getConfigManager() {

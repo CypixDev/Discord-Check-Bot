@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TasksManager {
 
@@ -28,7 +29,7 @@ public class TasksManager {
                     try{
                         message.editMessage(newMessage).queue();
                         tasksInChannel.add(taskId);
-                    }catch (ErrorResponseException e) {
+                    }catch (ErrorResponseException ignored) {
 
                     }
                 }
@@ -49,9 +50,7 @@ public class TasksManager {
         for (Message message : channel.getIterableHistory().complete()) {
             if(Integer.parseInt(message.getContentRaw().split(" ")[0].replace(".", "")) == taskId){
                 try{
-                    message.delete().queue(e -> {
-                        System.out.println("Task "+taskId+" is now not longer shown!");
-                    });
+                    message.delete().queue(e -> System.out.println("Task "+taskId+" is now not longer shown!"));
                 }catch (ErrorResponseException e){
                     //none
                 }
@@ -75,7 +74,7 @@ public class TasksManager {
         }
 
         if(ok){
-            MessageAction messageAction = channel.sendMessage(getTaskOverview(taskId));
+            MessageAction messageAction = channel.sendMessage(Objects.requireNonNull(getTaskOverview(taskId)));
 
             messageAction.queue(e -> {
                 channel.addReactionById(e.getId(), "U+2705").queue();
