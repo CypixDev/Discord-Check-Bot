@@ -375,7 +375,7 @@ public class TasksManager {
                                 if(minutesBetween == 1){
                                     deadLineBuilder.append("einer Minute");
                                 }else{
-                                    deadLineBuilder.append(minutesBetween-(hoursBetween*60));
+                                    deadLineBuilder.append(minutesBetween-(hoursBetween*60)); //fixed
                                     deadLineBuilder.append(" Minuten");
                                 }
                             }
