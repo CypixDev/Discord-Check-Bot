@@ -39,6 +39,13 @@ public enum SchoolSubject {
         return current;
     }
 
+    public static boolean exists(int schoolSubjectId){
+        for (SchoolSubject value : SchoolSubject.values()) {
+            if(value.getId() == schoolSubjectId) return true;
+        }
+        return false;
+    }
+
     public int getId() {
         return id;
     }

@@ -113,6 +113,7 @@ public class TasksCheckBot {
         commandManager.registerCommand("addfile", new CMDAddFile());
         commandManager.registerCommand("update", new CMDUpdate());
         commandManager.registerCommand("todo", new CMDTodo());
+        commandManager.registerCommand("ignore", new CMDIgnore());
     }
 
     public static ConfigManager getConfigManager() {

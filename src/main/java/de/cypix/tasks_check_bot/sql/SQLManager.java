@@ -116,6 +116,57 @@ public class SQLManager {
         return null;
     }
 
+    public static boolean isIgnoringSubject(long userId, SchoolSubject schoolSubject){
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * FROM user_ignore WHERE user_id="+userId+";");
+        try{
+            while(rs.next()){
+                if(rs.getInt("subject_id") == schoolSubject.getId()) return true;
+            }
+        }catch(SQLException ignored){
+
+        }
+        return false;
+    }
+    public static boolean isIgnoringSubject(User user, SchoolSubject schoolSubject){
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT subject_id FROM user_ignore " +
+                "INNER JOIN user ON user.user_id=user_ignore.user_id WHERE discord_id="+user.getIdLong()+";");
+        try{
+            while(rs.next()){
+                if(rs.getInt("subject_id") == schoolSubject.getId()) return true;
+            }
+        }catch(SQLException ignored){ }
+        return false;
+    }
+    public static boolean isIgnoringSubjectByDiscordId(long discordId, SchoolSubject schoolSubject){
+        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT subject_id FROM user "+
+                "INNER JOIN user_ignore ON user.user_id=user_ignore.user_id WHERE discord_id="+discordId+";");
+        try{
+            while(rs.next()){
+                if(rs.getInt("subject_id") == schoolSubject.getId()) return true;
+            }
+        }catch(SQLException ignored){ }
+        return false;
+    }
+
+    public static boolean insertIgnoringSubject(User user, SchoolSubject schoolSubject){
+        if(!isIgnoringSubject(user, schoolSubject)){
+            TasksCheckBot.getSqlConnector().executeUpdate("INSERT INTO user_ignore() VALUES " +
+                    "((SELECT user_id FROM user WHERE discord_id="+user.getIdLong()+"), "+schoolSubject.getId()+")");
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean deleteFromIgnoreSubject(User user, SchoolSubject schoolSubject){
+        if(isIgnoringSubject(user, schoolSubject)){
+            TasksCheckBot.getSqlConnector().executeUpdate("DELETE FROM user_ignore WHERE user_id=" +
+                    "(SELECT user_id from user WHERE discord_id="+user.getIdLong()+")" +
+                    " AND subject_id="+schoolSubject.getId());
+            return true;
+        }
+        return false;
+    }
+
     public static boolean taskExists(int taskId){
         try {
             return TasksCheckBot.getSqlConnector().getResultSet("SELECT * from task WHERE task_id="+taskId).next();

@@ -49,6 +49,7 @@ public class SQLConnector {
             executeUpdate("CREATE TABLE IF NOT EXISTS user(user_id INT PRIMARY KEY AUTO_INCREMENT, discord_id LONG, discord_name VARCHAR(255));");
             executeUpdate("CREATE TABLE IF NOT EXISTS private_channel(user_id INT, private_channel_id LONG);");
             executeUpdate("CREATE TABLE IF NOT EXISTS finish_user(user_id INT, task_id INT);");
+            executeUpdate("CREATE TABLE IF NOT EXISTS user_ignore(user_id INT, subject_id TINYINT);");
         }
     }
 

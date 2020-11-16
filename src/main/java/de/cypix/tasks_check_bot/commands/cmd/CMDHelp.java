@@ -6,6 +6,20 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class CMDHelp implements PrivateCommand {
+        /*
+        commandManager.registerCommand("help", new CMDHelp());
+        commandManager.registerCommand("ping", new CMDPing());
+        commandManager.registerCommand("deltask", new CMDDelTask());
+        commandManager.registerCommand("addtask", new CMDAddTask());
+        commandManager.registerCommand("delalltasks", new CMDDelAllTasks());
+        commandManager.registerCommand("updatetask", new CMDUpdateTask());
+        commandManager.registerCommand("archive", new CMDArchive());
+        commandManager.registerCommand("list", new CMDList());
+        commandManager.registerCommand("addfile", new CMDAddFile());
+        commandManager.registerCommand("update", new CMDUpdate());
+        commandManager.registerCommand("todo", new CMDTodo());
+        commandManager.registerCommand("ignore", new CMDIgnore());
+        */
 
     @Override
     public void performCommand(User user, MessageChannel messageChannel, Message message, String[] args) {
@@ -18,7 +32,9 @@ public class CMDHelp implements PrivateCommand {
                     "Dein Ping bekommst du mit ```ping```\n" +
                     "Damit du weißt welches Fach welche nummer hat, benutzte ```list```\n" +
                     "Um einen File zu einem bestehenden Task hinzuzufügen: ```ziehe den File per drag and drop auf den Bot und füge als kommentar folgendese hinzu: addfile <taskId>```\n" +
-                    "Um änderungen wirksam zu machen benutzte ```update```").queue();
+                    "Um änderungen wirksam zu machen benutzte ```update```" +
+                    "Um tasks von einem bestimmten Fach nicht mehr anzeigen zu lassen verwende ```ignore <subject id>```" +
+                    "").queue();
         }else messageChannel.sendMessage("Bitte benutzte nur 'help'").queue();
     }
 }
