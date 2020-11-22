@@ -35,7 +35,8 @@ public class CMDHelp implements PrivateCommand {
                     "Um änderungen wirksam zu machen benutzte ```update```" +
                     "Um tasks von einem bestimmten Fach nicht mehr anzeigen zu lassen verwende ```ignore <subject id>```" +
                     "Um deine errinerungen zu verwalten verwende: ```reminder add <time_before> <m(-in)/h(-our)/s(-ec)>```" +
-                    " ```reminder remove [time_before]/all <m(-in)/h(-our)/s(-ec)>``` ```reminder list```").queue();
+                    " ```reminder remove [time_before]/all <m(-in)/h(-our)/s(-ec)>``` ```reminder list```" +
+                    "Um einen Task in Private Channel als fertig zu markieren benutzte ```finish <task-id>```").queue();
         }else messageChannel.sendMessage("Bitte benutzte nur 'help'").queue();
     }
 }

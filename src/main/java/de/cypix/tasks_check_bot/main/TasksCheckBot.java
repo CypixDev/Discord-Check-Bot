@@ -118,6 +118,7 @@ public class TasksCheckBot {
         commandManager.registerCommand("todo", new CMDTodo());
         commandManager.registerCommand("ignore", new CMDIgnore());
         commandManager.registerCommand("reminder", new CMDReminder());
+        commandManager.registerCommand("finish", new CMDFinish());
     }
 
     public static ConfigManager getConfigManager() {
