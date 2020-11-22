@@ -34,7 +34,8 @@ public class CMDHelp implements PrivateCommand {
                     "Um einen File zu einem bestehenden Task hinzuzufügen: ```ziehe den File per drag and drop auf den Bot und füge als kommentar folgendese hinzu: addfile <taskId>```\n" +
                     "Um änderungen wirksam zu machen benutzte ```update```" +
                     "Um tasks von einem bestimmten Fach nicht mehr anzeigen zu lassen verwende ```ignore <subject id>```" +
-                    "").queue();
+                    "Um deine errinerungen zu verwalten verwende: ```reminder add <time_before> <m(-in)/h(-our)/s(-ec)>```" +
+                    " ```reminder remove [time_before]/all <m(-in)/h(-our)/s(-ec)>``` ```reminder list```").queue();
         }else messageChannel.sendMessage("Bitte benutzte nur 'help'").queue();
     }
 }

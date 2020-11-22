@@ -1,7 +1,8 @@
 package de.cypix.tasks_check_bot.manager;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class SchoolTask {
 
@@ -10,7 +11,12 @@ public class SchoolTask {
     private String taskDescription;
     //TODO: private List<User> finishedBy;
     private String taskLink;
-    private LocalDateTime deadLine;
+    private final LocalDateTime deadLine;
+
+    private final long secondsBetween;
+    private final long minutesBetween;
+    private final long hoursBetween;
+    private final long daysBetween;
 
     public SchoolTask(int taskId, SchoolSubject schoolSubject, String taskDescription, String taskLink, LocalDateTime deadLine) {
         this.taskId = taskId;
@@ -18,6 +24,16 @@ public class SchoolTask {
         this.taskDescription = taskDescription;
         this.taskLink = taskLink;
         this.deadLine = deadLine;
+
+        //Take care! it's only loaded when calling the constructor!
+        //This is cause the reminder tasks..
+        LocalDateTime timeNow = LocalDateTime.now();
+
+        daysBetween = ChronoUnit.DAYS.between(timeNow, deadLine);
+        hoursBetween = ChronoUnit.HOURS.between(timeNow, deadLine);
+        minutesBetween = ChronoUnit.MINUTES.between(timeNow, deadLine);
+        secondsBetween = ChronoUnit.SECONDS.between(timeNow, deadLine);
+
     }
 
     public int getTaskId() {
@@ -54,5 +70,21 @@ public class SchoolTask {
 
     public LocalDateTime getDeadLine() {
         return deadLine;
+    }
+
+    public long getSecondsBetween() {
+        return secondsBetween;
+    }
+
+    public long getMinutesBetween() {
+        return minutesBetween;
+    }
+
+    public long getHoursBetween() {
+        return hoursBetween;
+    }
+
+    public long getDaysBetween() {
+        return daysBetween;
     }
 }

@@ -44,12 +44,13 @@ public class SQLConnector {
 
     private void createTable() {
         if(isConnected()){
-            executeUpdate("CREATE TABLE IF NOT EXISTS task(task_id INT PRIMARY KEY AUTO_INCREMENT, subject_id TINYINT, task_description VARCHAR(255), " +
+            executeUpdatee("CREATE TABLE IF NOT EXISTS task(task_id INT PRIMARY KEY AUTO_INCREMENT, subject_id TINYINT, task_description VARCHAR(255), " +
                     "task_link VARCHAR(255), task_deadline DATE);");
-            executeUpdate("CREATE TABLE IF NOT EXISTS user(user_id INT PRIMARY KEY AUTO_INCREMENT, discord_id LONG, discord_name VARCHAR(255));");
-            executeUpdate("CREATE TABLE IF NOT EXISTS private_channel(user_id INT, private_channel_id LONG);");
-            executeUpdate("CREATE TABLE IF NOT EXISTS finish_user(user_id INT, task_id INT);");
-            executeUpdate("CREATE TABLE IF NOT EXISTS user_ignore(user_id INT, subject_id TINYINT);");
+            executeUpdatee("CREATE TABLE IF NOT EXISTS user(user_id INT PRIMARY KEY AUTO_INCREMENT, discord_id LONG, discord_name VARCHAR(255));");
+            executeUpdatee("CREATE TABLE IF NOT EXISTS private_channel(user_id INT, private_channel_id LONG);");
+            executeUpdatee("CREATE TABLE IF NOT EXISTS finish_user(user_id INT, task_id INT);");
+            executeUpdatee("CREATE TABLE IF NOT EXISTS user_ignore(user_id INT, subject_id TINYINT);");
+            executeUpdatee("CREATE TABLE IF NOT EXISTS user_reminder(user_id INT, time_before INT, time_unit TINYINT)");
         }
     }
 
@@ -92,7 +93,8 @@ public class SQLConnector {
         return true;
     }
 
-    public void executeUpdate(String qry) {
+    @Deprecated
+    public void executeUpdatee(String qry) {
         if (isConnected()) {
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(qry);
@@ -110,6 +112,18 @@ public class SQLConnector {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    public void executeUpdate(String qry) throws SQLException{
+        if (isConnected()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(qry);
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
+        }else {
+            reconnect();
+                PreparedStatement preparedStatement = connection.prepareStatement(qry);
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
         }
     }
 

@@ -9,6 +9,7 @@ import de.cypix.tasks_check_bot.events.ReactionListener;
 import de.cypix.tasks_check_bot.events.ReadyListener;
 import de.cypix.tasks_check_bot.events.UserLogger;
 import de.cypix.tasks_check_bot.manager.TasksManager;
+import de.cypix.tasks_check_bot.reminder.ReminderManager;
 import de.cypix.tasks_check_bot.scheduler.CheckScheduler;
 import de.cypix.tasks_check_bot.sql.SQLConnector;
 import net.dv8tion.jda.api.JDA;
@@ -23,7 +24,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
 import java.util.logging.*;
 
 public class TasksCheckBot {
@@ -39,6 +39,7 @@ public class TasksCheckBot {
     private static ConsoleManager consoleManager;
     private static SQLConnector sqlConnector;
     private static CommandManager commandManager;
+    private static ReminderManager reminderManager;
 
 
 
@@ -56,6 +57,8 @@ public class TasksCheckBot {
             instance.startSQL();
             instance.startBot(true);
         }
+        reminderManager = new ReminderManager();
+
         CheckScheduler scheduler = new CheckScheduler(new Runnable() {
             @Override
             public void run() {
@@ -114,6 +117,7 @@ public class TasksCheckBot {
         commandManager.registerCommand("update", new CMDUpdate());
         commandManager.registerCommand("todo", new CMDTodo());
         commandManager.registerCommand("ignore", new CMDIgnore());
+        commandManager.registerCommand("reminder", new CMDReminder());
     }
 
     public static ConfigManager getConfigManager() {
@@ -224,5 +228,13 @@ public class TasksCheckBot {
 
     public static CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public static ReminderManager getReminderManager() {
+        return reminderManager;
     }
 }
