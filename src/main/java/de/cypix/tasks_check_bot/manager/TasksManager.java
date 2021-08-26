@@ -37,7 +37,7 @@ public class TasksManager {
                 //none
             }
         }
-            for (Integer allTask : SQLManager.getAllTasks()) {
+            for (Integer allTask : SQLManager.getAllTasksForList()) {
                 if(!tasksInChannel.contains(allTask)){
                     TasksManager.addNewTaskToList(allTask);
                 }
@@ -198,6 +198,7 @@ public class TasksManager {
         for (SchoolSubject value : SchoolSubject.values()) {
             List<SchoolTask> list = SQLManager.getAllTasks(value);
             for (SchoolTask schoolTask : list) {
+                if(schoolTask.isPrivateTask()) continue;
                 LocalDateTime deadLine = schoolTask.getDeadLine();
                 LocalDateTime timeNow = LocalDateTime.now();
 
@@ -307,93 +308,101 @@ public class TasksManager {
             List<SchoolTask> list = SQLManager.getAllTasks(subject);
             for (SchoolTask schoolTask : list) {
                 if(!SQLManager.isIgnoringSubjectByDiscordId(discordId, subject)){
-                    if(!SQLManager.isTaskFinished(userId, schoolTask.getTaskId())){
-                        LocalDateTime deadLine = schoolTask.getDeadLine();
-                        LocalDateTime timeNow = LocalDateTime.now();
+                    if(!schoolTask.isPrivateTask() || schoolTask.getOwnerUserId() == userId) {
+                        if (!SQLManager.isTaskFinished(userId, schoolTask.getTaskId())) {
+                            LocalDateTime deadLine = schoolTask.getDeadLine();
+                            LocalDateTime timeNow = LocalDateTime.now();
 
 
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.");
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.");
 
-                        long daysBetween = ChronoUnit.DAYS.between(timeNow, deadLine);
-                        long hoursBetween = ChronoUnit.HOURS.between(timeNow, deadLine);
-                        long minutesBetween = ChronoUnit.MINUTES.between(timeNow, deadLine);
+                            long daysBetween = ChronoUnit.DAYS.between(timeNow, deadLine);
+                            long hoursBetween = ChronoUnit.HOURS.between(timeNow, deadLine);
+                            long minutesBetween = ChronoUnit.MINUTES.between(timeNow, deadLine);
 
-                        StringBuilder deadLineBuilder = new StringBuilder("| Deadline: **")
-                                .append(deadLine.format(formatter)).append(" ");
-                        if(hoursBetween < 0){
-                            deadLineBuilder.append("Abgelaufen seit ");
-                            int hours = (int) (hoursBetween*(-1));
-                            if(hours <= 24){
-                                if(hours == 1){
-                                    deadLineBuilder.append("einer Stunde ");
-                                }else{
-                                    deadLineBuilder.append(hours);
-                                    deadLineBuilder.append(" Stunden");
+                            StringBuilder deadLineBuilder = new StringBuilder("| Deadline: **")
+                                    .append(deadLine.format(formatter)).append(" ");
+                            if (hoursBetween < 0) {
+                                deadLineBuilder.append("Abgelaufen seit ");
+                                int hours = (int) (hoursBetween * (-1));
+                                if (hours <= 24) {
+                                    if (hours == 1) {
+                                        deadLineBuilder.append("einer Stunde ");
+                                    } else {
+                                        deadLineBuilder.append(hours);
+                                        deadLineBuilder.append(" Stunden");
+                                    }
+                                } else {
+                                    if (daysBetween == -1) {
+                                        deadLineBuilder.append("einem Tag ");
+                                    } else {
+                                        deadLineBuilder.append(daysBetween * (-1));
+                                        deadLineBuilder.append(" Tagen");
+                                    }
+                                    int tmp = (int) (hours - (((daysBetween * -1) * 24)));
+                                    deadLineBuilder.append(" und ");
+                                    if (tmp == 1) {
+                                        deadLineBuilder.append("einer Stunde");
+                                    } else {
+                                        deadLineBuilder.append(hours - (((daysBetween * -1) * 24)));
+                                        deadLineBuilder.append(" Stunden");
+                                    }
                                 }
-                            }else {
-                                if(daysBetween == -1){
-                                    deadLineBuilder.append("einem Tag ");
-                                }else{
-                                    deadLineBuilder.append(daysBetween*(-1));
-                                    deadLineBuilder.append(" Tagen");
-                                }
-                                int tmp = (int) (hours-(((daysBetween*-1)*24)));
-                                deadLineBuilder.append(" und ");
-                                if(tmp == 1){
-                                    deadLineBuilder.append("einer Stunde");
-                                }else{
-                                    deadLineBuilder.append(hours-(((daysBetween*-1)*24)));
+                            } else {
+                                deadLineBuilder.append("Fällig in: ");
+                                int hours = (int) (hoursBetween);
+
+                                if (hoursBetween >= 24) {
+                                    //gib in tagen an
+                                    if (daysBetween == 1) {
+                                        deadLineBuilder.append("einem Tag");
+                                    } else {
+                                        deadLineBuilder.append(daysBetween);
+                                        deadLineBuilder.append(" ");
+                                        deadLineBuilder.append("Tagen");
+                                    }
+                                    deadLineBuilder.append(" und ");
+                                    deadLineBuilder.append(hours - ((daysBetween * 24)));
                                     deadLineBuilder.append(" Stunden");
+                                } else {
+                                    //gib in stunden an
+                                    if (hoursBetween == 1) {
+                                        deadLineBuilder.append(" einer Stunde ");
+                                    } else {
+                                        deadLineBuilder.append(hoursBetween);
+                                        deadLineBuilder.append(" ");
+                                        deadLineBuilder.append("Stunden");
+                                    }
+                                    deadLineBuilder.append(" und ");
+                                    if (minutesBetween == 1) {
+                                        deadLineBuilder.append("einer Minute");
+                                    } else {
+                                        deadLineBuilder.append(minutesBetween - (hoursBetween * 60)); //fixed
+                                        deadLineBuilder.append(" Minuten");
+                                    }
                                 }
                             }
-                        }else{
-                            deadLineBuilder.append("Fällig in: ");
-                            int hours = (int) (hoursBetween);
 
-                            if(hoursBetween >= 24){
-                                //gib in tagen an
-                                if(daysBetween == 1){
-                                    deadLineBuilder.append("einem Tag");
-                                }else{
-                                    deadLineBuilder.append(daysBetween);
-                                    deadLineBuilder.append(" ");
-                                    deadLineBuilder.append("Tagen");
-                                }
-                                deadLineBuilder.append(" und ");
-                                deadLineBuilder.append(hours-((daysBetween*24)));
-                                deadLineBuilder.append(" Stunden");
-                            }else{
-                                //gib in stunden an
-                                if(hoursBetween == 1){
-                                    deadLineBuilder.append(" einer Stunde ");
-                                }else{
-                                    deadLineBuilder.append(hoursBetween);
-                                    deadLineBuilder.append(" ");
-                                    deadLineBuilder.append("Stunden");
-                                }
-                                deadLineBuilder.append(" und ");
-                                if(minutesBetween == 1){
-                                    deadLineBuilder.append("einer Minute");
-                                }else{
-                                    deadLineBuilder.append(minutesBetween-(hoursBetween*60)); //fixed
-                                    deadLineBuilder.append(" Minuten");
-                                }
+
+                            deadLineBuilder.append("**");
+
+                            StringBuilder builder = new StringBuilder();
+                            builder.append(schoolTask.getTaskId());
+                            builder.append(". *").append(schoolTask.getSchoolSubject().getSubjectName()).append("* ");
+                            if(schoolTask.isPrivateTask()) {
+                                builder.append("**(PRIVAT)** ");
                             }
-                        }
+                            builder.append(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : "");
+                            builder.append(" ").append(deadLineBuilder);
+                            builder.append(" ```").append(schoolTask.getTaskDescription()).append("```");
+
+                            MessageAction messageAction = channel.sendMessage(builder.toString());
 
 
-                        deadLineBuilder.append("**");
-
-                        MessageAction messageAction = channel.sendMessage(schoolTask.getTaskId()+
-                                ". *"+schoolTask.getSchoolSubject().getSubjectName()+"* " +
-                                ""+(schoolTask.getSchoolSubject().getEmoji() != null ? schoolTask.getSchoolSubject().getEmoji() : "")+
-                                " "+deadLineBuilder.toString()+
-                                " ```"+schoolTask.getTaskDescription()+"```");
-
-
-                        messageAction.queue();
-                        for (File file : FileManager.getFilesFromTask(schoolTask.getTaskId())) {
-                            channel.sendMessage(" ").addFile(file).queue();
+                            messageAction.queue();
+                            for (File file : FileManager.getFilesFromTask(schoolTask.getTaskId())) {
+                                channel.sendMessage(" ").addFile(file).queue();
+                            }
                         }
                     }
                 }

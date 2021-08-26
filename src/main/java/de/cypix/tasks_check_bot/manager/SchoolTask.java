@@ -11,18 +11,20 @@ public class SchoolTask {
     //TODO: private List<User> finishedBy;
     private String taskLink;
     private final LocalDateTime deadLine;
+    private final int ownerUserId; //public if equals to -1
 
     private final long secondsBetween;
     private final long minutesBetween;
     private final long hoursBetween;
     private final long daysBetween;
 
-    public SchoolTask(int taskId, SchoolSubject schoolSubject, String taskDescription, String taskLink, LocalDateTime deadLine) {
+    public SchoolTask(int taskId, SchoolSubject schoolSubject, String taskDescription, String taskLink, LocalDateTime deadLine, int ownerUserId) {
         this.taskId = taskId;
         this.schoolSubject = schoolSubject;
         this.taskDescription = taskDescription;
         this.taskLink = taskLink;
         this.deadLine = deadLine;
+        this.ownerUserId = ownerUserId;
 
         //Take care! it's only loaded when calling the constructor!
         //This is cause the reminder tasks..
@@ -85,5 +87,13 @@ public class SchoolTask {
 
     public long getDaysBetween() {
         return daysBetween;
+    }
+
+    public boolean isPrivateTask() {
+        return this.ownerUserId != -1;
+    }
+
+    public int getOwnerUserId() {
+        return ownerUserId;
     }
 }

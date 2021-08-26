@@ -1,0 +1,40 @@
+package de.cypix.tasks_check_bot.commands.cmd;
+
+import de.cypix.tasks_check_bot.commands.types.PrivateCommand;
+import de.cypix.tasks_check_bot.manager.SchoolSubject;
+import de.cypix.tasks_check_bot.sql.SQLManager;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
+
+public class CMDAddPrivateTask implements PrivateCommand {
+
+    @Override
+    public void performCommand(User user, MessageChannel messageChannel, Message message, String[] args) {
+        int subjectId;
+        try {
+            subjectId = Integer.parseInt(args[1]);
+            //check if its > than 0 and < than max schoolSubject id
+            if (subjectId < 0 || subjectId > SchoolSubject.getHighestSubjectId())
+                throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            messageChannel.sendMessage("Bitte verwende eine Nummer, die als Fach existiert! Um die Liste anzuzeigen, verwende: ```list```").queue();
+            return;
+        }
+
+        String date = args[2];
+        StringBuilder description = new StringBuilder();
+        for (int i = 3; i < args.length; i++) {
+            description.append(args[i]).append(" ");
+        }
+        int userId = SQLManager.getUserId(user.getIdLong());
+        if(userId == -1) {
+            messageChannel.sendMessage("Nicht im System als Benutzer registriert").queue();
+            return;
+        }
+
+        SQLManager.insertNewPrivateTask(SchoolSubject.getById(subjectId), date, description.toString(), userId);
+        System.out.println("Inserted -> " + SchoolSubject.getById(subjectId) + " " + date + " " + description.toString());
+        messageChannel.sendMessage("Wahrscheinlich erfolgreich hinzugefügt!").queue();
+    }
+}

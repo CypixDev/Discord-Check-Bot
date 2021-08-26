@@ -6,7 +6,7 @@
 
     <groupId>de.cypix</groupId>
     <artifactId>Discord-Tasks-Check-Bot</artifactId>
-    <version>1.7-BETA</version>
+    <version>1.7-RELEASE</version>
 
     <repositories>
         <repository>

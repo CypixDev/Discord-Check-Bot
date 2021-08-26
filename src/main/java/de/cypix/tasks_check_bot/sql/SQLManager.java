@@ -69,6 +69,14 @@ public class SQLManager {
     public static void insertNewTask(SchoolSubject schoolSubject, String till, String description){
         TasksCheckBot.getSqlConnector().executeUpdatee("INSERT INTO task(subject_id, task_description, task_deadline) VALUES ("+schoolSubject.getId()+", '"+description+"', '"+till+"');");
     }
+    public static void insertNewPrivateTask(SchoolSubject schoolSubject, String till, String description, int userId){
+        try {
+            TasksCheckBot.getSqlConnector().executeUpdate("INSERT INTO task(subject_id, task_description, task_deadline, userid) VALUES ("+schoolSubject.getId()+", '"+description+"', '"+till+"', '"+userId+"');");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static List<SchoolTask> getAllTasks(SchoolSubject schoolSubject){
         ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * FROM task WHERE subject_id="+schoolSubject.getId()+"" +
                 " AND task_deadline > DATE_SUB(NOW(),INTERVAL 2 DAY)");
@@ -79,16 +87,17 @@ public class SQLManager {
                         schoolSubject,
                         rs.getString("task_description"),
                         rs.getString("task_link"),
-                        rs.getTimestamp("task_deadline").toLocalDateTime()));
+                        rs.getTimestamp("task_deadline").toLocalDateTime(),
+                        rs.getInt("userid")));
             }
         }catch(SQLException e){
             e.printStackTrace();
         }
         return list;
     }
-    public static List<Integer> getAllTasks(){
+    public static List<Integer> getAllTasksForList(){
         ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT task_id FROM task" +
-                " WHERE task_deadline > DATE_SUB(NOW(),INTERVAL 2 DAY)");
+                " WHERE task_deadline > DATE_SUB(NOW(),INTERVAL 2 DAY) AND userid=-1");
         List<Integer> list = new ArrayList<>();
         try{
             while(rs.next()){
@@ -111,7 +120,8 @@ public class SQLManager {
                         SchoolSubject.getById(rs.getInt("subject_id")),
                         rs.getString("task_description"),
                         rs.getString("task_link"),
-                        rs.getTimestamp("task_deadline").toLocalDateTime()));
+                        rs.getTimestamp("task_deadline").toLocalDateTime(),
+                        rs.getInt("userid")));
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -128,7 +138,8 @@ public class SQLManager {
                         SchoolSubject.getById(rs.getInt("subject_id")),
                         rs.getString("task_description"),
                         rs.getString("task_link"),
-                        rs.getTimestamp("task_deadline").toLocalDateTime());
+                        rs.getTimestamp("task_deadline").toLocalDateTime(),
+                        rs.getInt("userid"));
             }
         }catch(SQLException e){
             e.printStackTrace();

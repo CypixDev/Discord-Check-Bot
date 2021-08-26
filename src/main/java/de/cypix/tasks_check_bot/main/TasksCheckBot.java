@@ -49,7 +49,7 @@ public class TasksCheckBot {
 
 
 
-    public static void main(String[] args) throws LoginException {
+    public static void main(String[] args) {
         setupLogger();
         instance = new TasksCheckBot();
         configManager = new ConfigManager();
@@ -115,6 +115,7 @@ public class TasksCheckBot {
         commandManager.registerCommand("ping", new CMDPing());
         commandManager.registerCommand("deltask", new CMDDelTask());
         commandManager.registerCommand("addtask", new CMDAddTask());
+        commandManager.registerCommand("addptask", new CMDAddPrivateTask());
         commandManager.registerCommand("delalltasks", new CMDDelAllTasks());
         commandManager.registerCommand("updatetask", new CMDUpdateTask());
         commandManager.registerCommand("archive", new CMDArchive());

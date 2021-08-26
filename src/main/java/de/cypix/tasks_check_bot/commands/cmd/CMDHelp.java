@@ -26,6 +26,7 @@ public class CMDHelp implements PrivateCommand {
         if(args.length == 1){
             messageChannel.sendMessage("Hier kommt die lang ersehnte Hilfe: \n" +
                     "Um einen neue Aufgabe hinzuzufügen: ```addTask <Num-Subject>(show with 'list') [Day/Date(Format: 2020-10-30-23:00)] [Description]```\n" + //length = >= 4
+                    "Um einen neue PRIVATE Aufgabe hinzuzufügen: ```addpTask <Num-Subject>(show with 'list') [Day/Date(Format: 2020-10-30-23:00)] [Description]```\n" + //length = >= 4
                     "Um an einer Aufgabe etwas zu verändern, verwende: ```updateTask <task-id(not subject id)> <description/DeadLine/Link/subject> [new thing]```\n" + //length >= 4
                     "Um eine Aufgabe zu entfernen, benutze: ```delTask <task-id>```\n" + //length -> 2
                     "Um alle Aufgaben eines Faches zu entfernen: ```delAllTasks <subject-id>```\n" + //length -> 2
