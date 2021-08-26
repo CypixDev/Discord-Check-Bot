@@ -46,7 +46,7 @@ public class CommandListener extends ListenerAdapter {
             if(event.getChannel().getType().equals(ChannelType.PRIVATE)){
                 //call command
                 if(!TasksCheckBot.getCommandManager().perform(args[0], event.getAuthor(), event.getChannel(), event.getMessage(), args)){
-                    event.getChannel().sendMessage("Dieser Command ist nicht bekannt!").queue();
+                    event.getChannel().sendMessage("Dieser Befehl ist nicht bekannt!").queue();
                 }
             }
         }

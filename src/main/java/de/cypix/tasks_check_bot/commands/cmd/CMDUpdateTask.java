@@ -14,11 +14,11 @@ public class CMDUpdateTask implements PrivateCommand {
         try {
             taskId = Integer.parseInt(args[1]);
             if (!SQLManager.taskExists(taskId)) {
-                messageChannel.sendMessage("Dieser Task Existiert nicht!").queue();
+                messageChannel.sendMessage("Dieser Task existiert nicht!").queue();
                 return;
             }
         } catch (NumberFormatException e) {
-                messageChannel.sendMessage("Bitte gebe eine Zahl ein!").queue();
+                messageChannel.sendMessage("Bitte gib eine Zahl ein!").queue();
             return;
         }
 
@@ -28,7 +28,7 @@ public class CMDUpdateTask implements PrivateCommand {
                 description.append(args[i] + " ");
             }
             SQLManager.updateDescription(taskId, description.toString());
-            messageChannel.sendMessage("Erfolgreich aktuallisiert!").queue();
+            messageChannel.sendMessage("Erfolgreich aktualisiert!").queue();
             return;
         }
         if (args[2].equalsIgnoreCase("deadline")) {
@@ -37,12 +37,12 @@ public class CMDUpdateTask implements PrivateCommand {
                 deadLine.append(args[i] + " ");
             }
             SQLManager.updateDeadLine(taskId, deadLine.toString());
-            messageChannel.sendMessage("Erfolgreich aktuallisiert!").queue();
+            messageChannel.sendMessage("Erfolgreich aktualisiert!").queue();
             return;
         }
         if (args[2].equalsIgnoreCase("link")) {
             SQLManager.updateLink(taskId, args[3]);
-            messageChannel.sendMessage("Erfolgreich aktuallisiert!").queue();
+            messageChannel.sendMessage("Erfolgreich aktualisiert!").queue();
             return;
         }
         if (args[2].equalsIgnoreCase("subject")) {
@@ -53,11 +53,11 @@ public class CMDUpdateTask implements PrivateCommand {
                 if (subjectId < 0 || subjectId > SchoolSubject.getHighestSubjectId())
                     new NumberFormatException("Subject is not existing");
             } catch (NumberFormatException e) {
-                messageChannel.sendMessage("Bitte verwende eine Nummer die als Fach existiert! Um die liste anzeigen zu lassen verwende: ```list```").queue();
+                messageChannel.sendMessage("Bitte verwende eine Nummer, die als Fach existiert! Um die Liste anzuzeigen, verwende: ```list```").queue();
                 return;
             }
             SQLManager.updateSubject(taskId, subjectId);
-            messageChannel.sendMessage("Erfolgreich aktuallisiert!").queue();
+            messageChannel.sendMessage("Erfolgreich aktualisiert!").queue();
             return;
         }
     }

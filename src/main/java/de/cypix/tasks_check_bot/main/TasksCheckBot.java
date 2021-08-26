@@ -1,7 +1,7 @@
 package de.cypix.tasks_check_bot.main;
 
-import de.cypix.tasks_check_bot.commands.cmd.*;
 import de.cypix.tasks_check_bot.commands.CommandManager;
+import de.cypix.tasks_check_bot.commands.cmd.*;
 import de.cypix.tasks_check_bot.configuration.ConfigManager;
 import de.cypix.tasks_check_bot.console.ConsoleManager;
 import de.cypix.tasks_check_bot.events.CommandListener;
@@ -20,11 +20,17 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
-import java.io.*;
-import java.nio.file.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class TasksCheckBot {
 
@@ -68,7 +74,7 @@ public class TasksCheckBot {
     }
 
     private static String calcDate(long milliseconds) {
-        SimpleDateFormat date_format = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+        SimpleDateFormat date_format = new SimpleDateFormat("yyy_MMM_dd_HH_mm");
         Date resultDate = new Date(milliseconds);
         return date_format.format(resultDate);
     }
@@ -131,7 +137,7 @@ public class TasksCheckBot {
 
     public void startSQL(){
         sqlConnector = new SQLConnector(true);
-        System.out.println("Stated SQL....");
+        System.out.println("Started SQL....");
     }
 
     public void startBot(String token) {

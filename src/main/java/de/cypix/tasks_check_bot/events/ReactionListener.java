@@ -3,7 +3,6 @@ package de.cypix.tasks_check_bot.events;
 import de.cypix.tasks_check_bot.main.TasksCheckBot;
 import de.cypix.tasks_check_bot.sql.SQLManager;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
@@ -23,9 +22,9 @@ public class ReactionListener extends ListenerAdapter {
                         if (message.getIdLong() == event.getMessageIdLong()) {
                             if(SQLManager.markAsFinish(SQLManager.getUserId(event.getUserIdLong()),
                                     Integer.parseInt(message.getContentRaw().split(" ")[0].replace(".", "")))){
-                                event.getUser().openPrivateChannel().complete().sendMessage("Diese Aufgabe wurde nun als Erledigt markiert!").queue();
+                                event.getUser().openPrivateChannel().complete().sendMessage("Diese Aufgabe wurde nun als erledigt markiert!").queue();
                             }else{
-                                event.getUser().openPrivateChannel().complete().sendMessage("Diese Aufgabe wurde bereits als Erledigt markiert!!").queue();
+                                event.getUser().openPrivateChannel().complete().sendMessage("Diese Aufgabe wurde bereits als erledigt markiert!!").queue();
                             }
                         }
                     }
@@ -35,7 +34,7 @@ public class ReactionListener extends ListenerAdapter {
                         if (message.getIdLong() == event.getMessageIdLong()) {
                             SQLManager.markAsNotFinish(SQLManager.getUserId(event.getUserIdLong()),
                                     Integer.parseInt(message.getContentRaw().split(" ")[0].replace(".", "")));
-                            event.getUser().openPrivateChannel().complete().sendMessage("Diese Aufgabe wurde nun als nicht Erledigt markiert!").queue();
+                            event.getUser().openPrivateChannel().complete().sendMessage("Diese Aufgabe wurde nun als nicht erledigt markiert!").queue();
                         }
                     }
 
@@ -43,7 +42,7 @@ public class ReactionListener extends ListenerAdapter {
                     for (Message message : event.getChannel().getIterableHistory().complete()) {
                         if (message.getIdLong() == event.getMessageIdLong()) {
 
-                           StringBuilder stringBuilder = new StringBuilder("Die Jungs haben die aufgabe schon gemeistert: ");
+                           StringBuilder stringBuilder = new StringBuilder("Diese Jungs haben die Aufgabe schon gemeistert: ");
                             for (String name : SQLManager.getFinishedTasksDiscordNames(Integer.parseInt(message.getContentRaw().split(" ")[0].replace(".", "")))) {
                                 stringBuilder.append(name);
                                 stringBuilder.append("; ");
@@ -53,7 +52,7 @@ public class ReactionListener extends ListenerAdapter {
                     }
 
                 }
-                //really remove that ones?
+                //really remove that ones? YES
                 /*else{
                     for (Message message : event.getChannel().getHistoryFromBeginning(99).complete().getRetrievedHistory()) {
                         if(message.getReactions() != null){

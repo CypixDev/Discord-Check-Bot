@@ -3,12 +3,13 @@ package de.cypix.tasks_check_bot.commands.cmd;
 import de.cypix.tasks_check_bot.commands.types.PrivateCommand;
 import de.cypix.tasks_check_bot.manager.SchoolSubject;
 import de.cypix.tasks_check_bot.sql.SQLManager;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -33,9 +34,9 @@ public class CMDAddFile implements PrivateCommand {
                     }catch(IOException e){
                         messageChannel.sendMessage("ERROR WHILE SAVING....please contact Admin...").queue();
                     }
-                }else messageChannel.sendMessage("Bitte hänge auch einen task mit an HEEHHE").queue();
+                }else messageChannel.sendMessage("Bitte hänge auch einen Task mit an HEEHHE").queue();
 
-            }else messageChannel.sendMessage("Dieser Task existiert nicht! oder ist schon im archiv!").queue();
+            }else messageChannel.sendMessage("Dieser Task existiert nicht! (oder ist schon im Archiv!)").queue();
         }
 
         //TODO: send use

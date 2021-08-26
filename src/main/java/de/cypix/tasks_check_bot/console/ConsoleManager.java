@@ -91,7 +91,7 @@ public class ConsoleManager extends Thread{
                 if(args[1].equalsIgnoreCase("sql")){
                     TasksCheckBot.setSqlConnector(new SQLConnector("localhost", "Discord_tasks",
                             "Discord_tasks", args[2], 3306));
-                    System.out.println("Stated SQL....");
+                    System.out.println("Started SQL....");
                     return;
                 }
             }

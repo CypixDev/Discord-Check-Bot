@@ -193,7 +193,7 @@ public class TasksManager {
             e.delete().queue();
         });
 
-        channel.sendMessage("Hier Aktuelle Infos über alle Schulaufgaben: ").queue();
+        channel.sendMessage("Hier aktuelle Infos über alle Schulaufgaben: ").queue();
 
         for (SchoolSubject value : SchoolSubject.values()) {
             List<SchoolTask> list = SQLManager.getAllTasks(value);
@@ -301,7 +301,7 @@ public class TasksManager {
         int userId = SQLManager.getUserId(discordId);
         //Guild guild = TasksCheckBot.getJda().getGuildsByName("Server von Cypix", false).get(0);
 
-        channel.sendMessage("Hier die sachen die **du** noch zu tun hast: ").queue();
+        channel.sendMessage("Hier die Sachen, die **du** noch zu tun hast: ").queue();
 
         for (SchoolSubject subject : SchoolSubject.values()) {
             List<SchoolTask> list = SQLManager.getAllTasks(subject);

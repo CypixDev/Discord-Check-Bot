@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>de.cypix</groupId>
     <artifactId>Discord-Tasks-Check-Bot</artifactId>
-    <version>1.6-RELEASE</version>
+    <version>1.7-BETA</version>
 
     <repositories>
         <repository>
@@ -92,7 +92,7 @@
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
-                            <outputFile>C:\Users\pikon\Desktop\${artifactId}.jar</outputFile>
+                            <outputFile>${user.home}\Desktop\${artifactId}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>

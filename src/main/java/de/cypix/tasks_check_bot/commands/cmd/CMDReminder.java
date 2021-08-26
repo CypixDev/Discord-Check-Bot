@@ -18,7 +18,7 @@ public class CMDReminder implements PrivateCommand {
         //list
         if(args.length == 2){
             if(args[1].equalsIgnoreCase("list")){
-                StringBuilder stringBuilder = new StringBuilder("Hier alle deine reminder tasks \n");
+                StringBuilder stringBuilder = new StringBuilder("Hier alle deine Tasks mit Erinnerungen \n");
                 try {
                     for (ReminderTask reminderTask : SQLManager.getAllReminderTasks(user.getIdLong())) {
                         stringBuilder.append(reminderTask.getTimeBefore());
@@ -98,7 +98,7 @@ public class CMDReminder implements PrivateCommand {
                 if(args[2].equalsIgnoreCase("all")){
                     try {
                         SQLManager.removeAllReminderTasks(user.getIdLong());
-                        messageChannel.sendMessage("Es wurden alle reminder tasks entfernt!").queue();
+                        messageChannel.sendMessage("Es wurden alle Erinnerungen für Tasks entfernt!").queue();
                     } catch (SQLException e) {
                         e.printStackTrace();
                         messageChannel.sendMessage("Something went wrong, I'm sorry!").queue();

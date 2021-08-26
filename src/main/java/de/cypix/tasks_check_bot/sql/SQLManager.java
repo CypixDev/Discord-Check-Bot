@@ -100,7 +100,9 @@ public class SQLManager {
         return list;
     }
     public static List<SchoolTask> getAllTasksAsTask(){
-        ResultSet rs = TasksCheckBot.getSqlConnector().getResultSet("SELECT * FROM task" +
+        ResultSet rs = TasksCheckBot.
+                getSqlConnector().
+                getResultSet("SELECT * FROM task" +
                 " WHERE task_deadline > DATE_SUB(NOW(),INTERVAL 2 DAY)");
         List<SchoolTask> list = new ArrayList<>();
         try{

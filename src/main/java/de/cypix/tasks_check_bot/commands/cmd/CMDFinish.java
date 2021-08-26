@@ -18,7 +18,7 @@ public class CMDFinish implements PrivateCommand {
                     }else messageChannel.sendMessage("Bereits als Fertig markiert!").queue();
                 }else messageChannel.sendMessage("Dieser Task existiert nicht!").queue();
             }catch(NumberFormatException e){
-                messageChannel.sendMessage("Bitte gib eine ZAHL ein die GRÖßER als 0 ist!").queue();
+                messageChannel.sendMessage("Bitte gib eine ZAHL ein, die GRÖßER ist als 0!").queue();
             }
         }
     }

@@ -8,10 +8,8 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ReminderManager {
 
@@ -28,6 +26,7 @@ public class ReminderManager {
             @Override
             public void run() {
                 List<SchoolTask> schoolTasks = SQLManager.getAllTasksAsTask();
+
                 HashMap<Integer, SchoolTask> schoolTasksOldClone = getSchoolTasksOld();
                 schoolTasksOld.clear();
                 for (SchoolTask schoolTask : schoolTasks) {
