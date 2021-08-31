@@ -1,8 +1,11 @@
 package de.cypix.tasks_check_bot.reminder;
 
-import java.util.TimerTask;
+import de.cypix.tasks_check_bot.main.TasksCheckBot;
 
-public class ReminderScheduler extends TimerTask {
+import java.util.TimerTask;
+import java.util.logging.Level;
+
+public class ReminderScheduler extends TimerTask  {
 
     private int i; //in sec
     private Runnable runnable;
@@ -11,16 +14,18 @@ public class ReminderScheduler extends TimerTask {
         this.i = i;
         this.runnable = runnable;
         run();
+        //IntelliJ
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         try {
             Thread.sleep(i*1000);
             runnable.run();
             run();
         } catch (InterruptedException e) {
             e.printStackTrace();
+            TasksCheckBot.logger.log(Level.SEVERE, "REMINDER", e);
         }
     }
 

@@ -64,6 +64,7 @@ public class TasksCheckBot {
             instance.startBot(true);
         }
         reminderManager = new ReminderManager();
+        reminderManager.start();
 
         CheckScheduler scheduler = new CheckScheduler(new Runnable() {
             @Override

@@ -11,12 +11,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 
-public class ReminderManager {
+public class ReminderManager extends Thread{
 
     private ReminderScheduler reminderScheduler;
     private HashMap<Integer, SchoolTask> schoolTasksOld;
 
-    public ReminderManager() {
+    @Override
+    public void run() {
         schoolTasksOld = new HashMap<>();
         initScheduler();
     }
