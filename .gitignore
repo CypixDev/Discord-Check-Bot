@@ -35,3 +35,4 @@ manifest.mf
 #config
 config.json
 log
+latest.log
