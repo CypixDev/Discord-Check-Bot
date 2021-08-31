@@ -34,7 +34,7 @@ public class TasksManager {
                     }
                 }
             }catch (NumberFormatException e){
-                //none
+                e.printStackTrace();
             }
         }
             for (Integer allTask : SQLManager.getAllTasksForList()) {
