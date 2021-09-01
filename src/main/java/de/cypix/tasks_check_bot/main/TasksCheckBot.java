@@ -46,6 +46,7 @@ public class TasksCheckBot {
     private static SQLConnector sqlConnector;
     private static CommandManager commandManager;
     private static ReminderManager reminderManager;
+    private static CheckScheduler checkScheduler;
 
 
 
@@ -66,7 +67,7 @@ public class TasksCheckBot {
         reminderManager = new ReminderManager();
         reminderManager.start();
 
-        CheckScheduler scheduler = new CheckScheduler(new Runnable() {
+        checkScheduler = new CheckScheduler(new Runnable() {
             @Override
             public void run() {
                 TasksManager.updateAllTasks();

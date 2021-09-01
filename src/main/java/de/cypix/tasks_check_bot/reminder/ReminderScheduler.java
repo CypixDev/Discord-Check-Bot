@@ -20,7 +20,7 @@ public class ReminderScheduler extends TimerTask  {
     @Override
     public synchronized void run() {
         try {
-            Thread.sleep(i*1000);
+            Thread.sleep(i*1000L);
             runnable.run();
             run();
         } catch (InterruptedException e) {

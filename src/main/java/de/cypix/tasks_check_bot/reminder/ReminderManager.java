@@ -148,4 +148,7 @@ public class ReminderManager extends Thread{
         }
     }
 
+    public ReminderScheduler getReminderScheduler() {
+        return reminderScheduler;
+    }
 }
