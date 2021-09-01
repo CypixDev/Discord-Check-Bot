@@ -40,7 +40,7 @@ public class ConsoleManager extends Thread{
             }
             if(args[0].equalsIgnoreCase("status")){
                 System.out.println("SQL is "+(TasksCheckBot.getSqlConnector() != null && TasksCheckBot.getSqlConnector().isConnected() ? "connected" : "disconnected"));
-                System.out.println("Bot is "+(TasksCheckBot.getJda().isUnavailable(400) ? "Offline" : "Online"));
+                System.out.println("Bot is "+(TasksCheckBot.getJda().isUnavailable(400) ? "Offline(400ms)" : "Online"));
                 return;
             }
             if(args[0].equalsIgnoreCase("stop")){
@@ -78,6 +78,9 @@ public class ConsoleManager extends Thread{
                     System.out.println("Bot is now offline!");
                     return;
                 }
+                if(args[1].equalsIgnoreCase("schedulers")){
+                    TasksCheckBot.getReminderManager().getReminderScheduler().cancel(); //TODO: Don't know if its working and you can maybe not start it again
+                }
             }
         }
         if(args.length == 3){
@@ -93,6 +96,9 @@ public class ConsoleManager extends Thread{
                             "Discord_tasks", args[2], 3306));
                     System.out.println("Started SQL....");
                     return;
+                }
+                if(args[1].equalsIgnoreCase("scheduler")){
+                    TasksCheckBot.getReminderManager().run();//TODO: don't know if its working or not...
                 }
             }
         }
