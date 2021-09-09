@@ -7,6 +7,14 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.Date;
+
 public class CMDUpdateTask implements PrivateCommand {
     @Override
     public void performCommand(User user, MessageChannel messageChannel, Message message, String[] args) {
@@ -32,12 +40,26 @@ public class CMDUpdateTask implements PrivateCommand {
             return;
         }
         if (args[2].equalsIgnoreCase("deadline")) {
-            StringBuilder deadLine = new StringBuilder();
-            for (int i = 3; i < args.length; i++) {
-                deadLine.append(args[i] + " ");
+
+            String[] acceptedFormats = {"yyyy-MM-dd-kk:mm","yyyy-MM-dd","dd.MM.yyyy", "dd.MM.yyyy-kk:mm","yyyy-MM-dd-kk:mm:ss"};
+            boolean checked = Arrays.stream(acceptedFormats)
+                    .anyMatch(pattern -> {
+                        try {
+                            LocalDateTime.parse(args[3], DateTimeFormatter.ofPattern(pattern));
+                            return true;
+                        } catch (DateTimeParseException e) {
+                            e.printStackTrace();
+                            return false;
+                        }
+                    });
+
+            if(checked) {
+                SQLManager.updateDeadLine(taskId, args[3]);
+                messageChannel.sendMessage("Erfolgreich aktualisiert!").queue();
+            } else {
+                messageChannel.sendMessage("Das Format von dem Datum wurde nicht erkannt! (yyyy-MM-dd-hh:mm)").queue();
             }
-            SQLManager.updateDeadLine(taskId, deadLine.toString());
-            messageChannel.sendMessage("Erfolgreich aktualisiert!").queue();
+
             return;
         }
         if (args[2].equalsIgnoreCase("link")) {

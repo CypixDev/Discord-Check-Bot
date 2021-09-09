@@ -208,22 +208,22 @@ public class SQLManager {
     }
     public static void updateDescription(int taskId, String description){
         if(taskExists(taskId)){
-            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task WHERE task_id="+taskId+" SET task_description='"+description+"';");
+            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task SET task_description='"+description+"' WHERE task_id='"+taskId+";");
         }
     }
     public static void updateDeadLine(int taskId, String deadLine){
         if(taskExists(taskId)){
-            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task WHERE task_id="+taskId+" SET task_deadline='"+deadLine+"';");
+            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task SET task_deadline='"+deadLine+"' WHERE task_id="+taskId+";");
         }
     }
     public static void updateLink(int taskId, String link){
         if(taskExists(taskId)){
-            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task WHERE task_id="+taskId+" SET task_link='"+link+"';");
+            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task SET task_link='"+link+"' WHERE task_id="+taskId+";");
         }
     }
     public static void updateSubject(int taskId, SchoolSubject schoolSubject){
         if(taskExists(taskId)){
-            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task WHERE task_id="+taskId+" SET subject_id="+schoolSubject.getId()+";");
+            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task SET subject_id="+schoolSubject.getId()+" WHERE task_id="+taskId+";");
         }
     }
     public static int getUserId(long discordId){
@@ -269,7 +269,7 @@ public class SQLManager {
     }
     public static void updateSubject(int taskId, int subjectId){
         if(taskExists(taskId)){
-            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task WHERE task_id="+taskId+" SET subject_id="+subjectId+";");
+            TasksCheckBot.getSqlConnector().executeUpdatee("UPDATE task SET subject_id="+subjectId+" WHERE task_id="+taskId+";");
         }
     }
 

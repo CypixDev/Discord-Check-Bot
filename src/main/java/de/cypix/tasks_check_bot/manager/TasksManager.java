@@ -23,6 +23,7 @@ public class TasksManager {
         List<Integer> tasksInChannel = new ArrayList<>();
         for (Message message : channel.getIterableHistory().complete()) {
             try{
+                if(message.getContentRaw().startsWith("Hier")) continue;
                 int taskId = Integer.parseInt(message.getContentRaw().split(" ")[0].replace(".", ""));
                 String newMessage = getTaskOverview(taskId);
                 if(newMessage != null) {
