@@ -36,3 +36,6 @@ manifest.mf
 config.json
 log
 latest.log
+
+#Cypix stuff
+latest*
