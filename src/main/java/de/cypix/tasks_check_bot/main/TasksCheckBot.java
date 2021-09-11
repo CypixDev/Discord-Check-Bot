@@ -11,6 +11,7 @@ import de.cypix.tasks_check_bot.events.UserLogger;
 import de.cypix.tasks_check_bot.manager.TasksManager;
 import de.cypix.tasks_check_bot.reminder.ReminderManager;
 import de.cypix.tasks_check_bot.scheduler.CheckScheduler;
+import de.cypix.tasks_check_bot.spring.Application;
 import de.cypix.tasks_check_bot.sql.SQLConnector;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -18,6 +19,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.springframework.boot.SpringApplication;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -59,6 +61,9 @@ public class TasksCheckBot {
         commandManager = new CommandManager();
 
         registerCommands();
+
+        //starting Spring server...
+        SpringApplication.run(Application.class, args);
 
         if(configManager.isStatingAutomatically()){
             instance.startSQL();
