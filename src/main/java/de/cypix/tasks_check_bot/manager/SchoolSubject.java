@@ -28,7 +28,7 @@ public enum SchoolSubject {
         for (SchoolSubject value : SchoolSubject.values()) {
             if(value.getId() == id) return value;
         }
-        return SchoolSubject.GENERAL;
+        return null;
     }
 
     public static int getHighestSubjectId(){

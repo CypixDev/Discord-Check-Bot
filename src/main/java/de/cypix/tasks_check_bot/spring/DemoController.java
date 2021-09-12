@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class DemoController {
 
-    @Autowired
+    /*@Autowired
     private CustomerRepository customerRepository;
 
     @PostMapping("/add")
@@ -26,6 +26,6 @@ public class DemoController {
     @GetMapping("/find/{id}")
     public Customer findCustomerById(@PathVariable Integer id){
         return customerRepository.findCustomerById(id);
-    }
+    }*/
 
 }

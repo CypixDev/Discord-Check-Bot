@@ -7,6 +7,8 @@
     <groupId>de.cypix</groupId>
     <artifactId>Discord-Tasks-Check-Bot</artifactId>
     <version>1.7-RELEASE</version>
+    <name>Discord-School-Bot</name>
+    <description>Very cool Bot!</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -14,6 +16,11 @@
         <version>2.5.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+
+    <properties>
+        <java.version>11</java.version>
+    </properties>
 
     <repositories>
         <repository>
@@ -88,13 +95,12 @@
 
 
     </dependencies>
-
-    <properties>
-        <maven.compiler.release>11</maven.compiler.release>
-    </properties>
-
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

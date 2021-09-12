@@ -1,5 +1,9 @@
 package de.cypix.tasks_check_bot.main;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import de.cypix.tasks_check_bot.commands.CommandManager;
 import de.cypix.tasks_check_bot.commands.cmd.*;
 import de.cypix.tasks_check_bot.configuration.ConfigManager;
@@ -29,6 +33,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -37,6 +42,8 @@ import java.util.logging.SimpleFormatter;
 public class TasksCheckBot {
 
     private static TasksCheckBot instance;
+
+    private static SpringApplication springApplication;
 
     public static Logger logger;
 
@@ -63,7 +70,10 @@ public class TasksCheckBot {
         registerCommands();
 
         //starting Spring server...
-        SpringApplication.run(Application.class, args);
+        springApplication = new SpringApplication(Application.class);
+        springApplication.setDefaultProperties(Collections.singletonMap("server.port", "8081"));
+        springApplication.run(args);
+                //SpringApplication.run(Application.class, args);
 
         if(configManager.isStatingAutomatically()){
             instance.startSQL();
