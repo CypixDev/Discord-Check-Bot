@@ -21,7 +21,13 @@ public class AddTaskController {
                 try {
                     LocalDateTime dateTime = LocalDateTime.parse(deadLine, DateTimeFormatter.ofPattern("yyyy-MM-dd-kk:mm"));
                     //TODO: add Task actually ...
-                    SQLManager.insertNewTask(subject, dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss")), description.replace('_', ' '));
+                    System.out.println("Got Desc: "+description);
+                    description = description.replace('_', ' ');
+                    description = description.replace(" BR ", "\n");
+                    description = "\n"+description;
+                    System.out.println("Got Desc2: "+description);
+
+                    SQLManager.insertNewTask(subject, dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss")), description);
                     return "Added successfully!";
                 } catch (DateTimeParseException e) {
                     e.printStackTrace();
