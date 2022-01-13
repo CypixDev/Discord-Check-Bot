@@ -43,7 +43,7 @@ public class TasksCheckBot {
 
     private static TasksCheckBot instance;
 
-    private static SpringApplication springApplication;
+    //private static SpringApplication springApplication;
 
     public static Logger logger;
 
@@ -70,9 +70,9 @@ public class TasksCheckBot {
         registerCommands();
 
         //starting Spring server...
-        springApplication = new SpringApplication(Application.class);
+        /*springApplication = new SpringApplication(Application.class);
         springApplication.setDefaultProperties(Collections.singletonMap("server.port", "8081"));
-        springApplication.run(args);
+        springApplication.run(args);*/
                 //SpringApplication.run(Application.class, args);
 
         if(configManager.isStatingAutomatically()){
